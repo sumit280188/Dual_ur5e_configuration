@@ -154,26 +154,6 @@ def generate_launch_description():
     # ========================================
     # GAZEBO SIMULATION
     # ========================================
-    # gazebo = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         [
-    #             os.path.join(get_package_share_directory("ros_gz_sim"), "launch"),
-    #             "/gz_sim.launch.py",
-    #         ]
-    #     ),
-    #     launch_arguments=[
-    #         ("gz_args", [" -v ", gz_verbosity, " -r ", world_file]),
-    #         ("on_exit_shutdown", "true"),
-    #     ],
-    # )
-    
-    # Get world path
-    custom_world_path = os.path.join(
-        get_package_share_directory("dual_robot_combined_description"),
-        "worlds",
-        "custom_world.sdf"
-    )
-    
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             [
@@ -181,11 +161,31 @@ def generate_launch_description():
                 "/gz_sim.launch.py",
             ]
         ),
-        #launch_arguments=[("gz_args", " -v 4 -r empty.sdf ")],
         launch_arguments=[
-        ("gz_args", f" -v 4 -r {custom_world_path} ")
+            ("gz_args", [" -v ", gz_verbosity, " -r ", world_file]),
+            ("on_exit_shutdown", "true"),
         ],
     )
+    
+    # Get world path
+    # custom_world_path = os.path.join(
+    #     get_package_share_directory("dual_robot_combined_description"),
+    #     "worlds",
+    #     "custom_world.sdf"
+    # )
+    
+    # gazebo = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         [
+    #             os.path.join(get_package_share_directory("ros_gz_sim"), "launch"),
+    #             "/gz_sim.launch.py",
+    #         ]
+    #     ),
+    #     #launch_arguments=[("gz_args", " -v 4 -r empty.sdf ")],
+    #     launch_arguments=[
+    #     ("gz_args", f" -v 4 -r {custom_world_path} ")
+    #     ],
+    # )
 
     # ========================================
     # SPAWN COMBINED ROBOT IN GAZEBO

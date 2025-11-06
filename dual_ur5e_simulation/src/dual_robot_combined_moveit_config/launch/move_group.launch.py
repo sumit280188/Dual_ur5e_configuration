@@ -43,6 +43,14 @@ def generate_launch_description():
         .to_moveit_configs()
     )
 
+    workspace_boundaries = {
+        "workspace_parameters.min_corner.x": -2.0,
+        "workspace_parameters.min_corner.y": -2.0,
+        "workspace_parameters.min_corner.z": 0.0,  # Floor level so that robot does not move below floor
+        "workspace_parameters.max_corner.x": 2.0,
+        "workspace_parameters.max_corner.y": 2.0,
+        "workspace_parameters.max_corner.z": 2.0,
+    }
     # Planning scene monitor parameters
     planning_scene_monitor_parameters = {
         "publish_planning_scene": True,
@@ -91,9 +99,9 @@ def generate_launch_description():
                 #"trajectory_execution.allowed_execution_duration_scaling": 2.0,
                 #"trajectory_execution.allowed_goal_duration_margin": 0.5,
             },
+            workspace_boundaries,
             planning_scene_monitor_parameters,
             planning_pipelines_config,
-            
         ],
         # For a unified robot description, you need to aggregate joint states from both robots
         # remappings=[
