@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: robot_description
+    relative_path: urdf/robot.urdf
+  srdf:
+    relative_path: config/ur5e.srdf
+  package_settings:
+    author_name: Sumit Kumar Thantharate
+    author_email: thantharate@e3d.rwth-aachen.de
+    generated_timestamp: 1740925104

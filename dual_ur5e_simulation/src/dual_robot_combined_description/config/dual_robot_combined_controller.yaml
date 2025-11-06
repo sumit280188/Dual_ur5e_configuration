@@ -1,0 +1,102 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 500 #100 to 500 Hz
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    alice_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    alice_robotiq_gripper_controller:
+      type: position_controllers/GripperActionController
+
+    bob_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    bob_robotiq_gripper_controller:
+      type: position_controllers/GripperActionController
+
+
+alice_arm_controller:
+  ros__parameters:
+    joints:
+      - alice_shoulder_pan_joint
+      - alice_shoulder_lift_joint
+      - alice_elbow_joint
+      - alice_wrist_1_joint
+      - alice_wrist_2_joint
+      - alice_wrist_3_joint
+    command_interfaces: [position]
+    state_interfaces: [position]
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false # Defaults to false
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    allow_nonzero_velocity_at_trajectory_end: true
+    constraints:
+        stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+        goal_time: 0.0 # Defaults to 0.0 (start immediately)
+    reliability: reliable
+    durability: transient_local
+
+alice_robotiq_gripper_controller: #it should be joint not joints and that too in a straight line not as a list
+  ros__parameters:
+    joint: alice_robotiq_85_left_knuckle_joint
+    # command_interfaces: [position]
+    # state_interfaces: [position]
+    # state_publish_rate: 100.0
+    # action_monitor_rate: 20.0
+    # allow_partial_joints_goal: false # Defaults to false
+    # open_loop_control: true
+    # allow_integration_in_goal_trajectories: true
+    # allow_nonzero_velocity_at_trajectory_end: true
+    # constraints:
+    #     stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+    #     goal_time: 0.0 # Defaults to 0.0 (start immediately)
+    # reliability: reliable
+    # durability: transient_local
+
+
+bob_arm_controller:
+  ros__parameters:
+    joints:
+      - bob_shoulder_pan_joint
+      - bob_shoulder_lift_joint
+      - bob_elbow_joint
+      - bob_wrist_1_joint
+      - bob_wrist_2_joint
+      - bob_wrist_3_joint
+    command_interfaces: [position]
+    state_interfaces: [position]
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false # Defaults to false
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    allow_nonzero_velocity_at_trajectory_end: true
+    constraints:
+        stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+        goal_time: 0.0 # Defaults to 0.0 (start immediately)
+    reliability: reliable
+    durability: transient_local
+
+
+bob_robotiq_gripper_controller:
+  ros__parameters:
+    joint: bob_robotiq_85_left_knuckle_joint
+    # command_interfaces: [position]
+    # state_interfaces: [position]
+    # state_publish_rate: 100.0
+    # action_monitor_rate: 20.0
+    # allow_partial_joints_goal: false # Defaults to false
+    # open_loop_control: true
+    # allow_integration_in_goal_trajectories: true
+    # allow_nonzero_velocity_at_trajectory_end: true
+    # constraints:
+    #     stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+    #     goal_time: 0.0 # Defaults to 0.0 (start immediately)
+    # reliability: reliable
+    # durability: transient_local

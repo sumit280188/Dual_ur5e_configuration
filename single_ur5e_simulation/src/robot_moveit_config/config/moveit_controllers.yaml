@@ -1,0 +1,91 @@
+# # MoveIt uses this configuration for controller management
+
+# moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+# moveit_simple_controller_manager:
+#   controller_names:
+#     - joint_trajectory_controller
+#     - robotiq_gripper_controller
+
+#   joint_trajectory_controller:
+#     type: FollowJointTrajectory
+#     action_ns: follow_joint_trajectory
+#     default: true
+#     joints:
+#       - shoulder_pan_joint
+#       - shoulder_lift_joint
+#       - elbow_joint
+#       - wrist_1_joint
+#       - wrist_2_joint
+#       - wrist_3_joint
+#   robotiq_gripper_controller:
+#     type: FollowJointTrajectory
+#     action_ns: follow_joint_trajectory
+#     default: true
+#     joints:
+#       - robotiq_85_left_knuckle_joint
+
+
+#old/default generated my moveit_setup_assistant
+# MoveIt uses this configuration for controller management
+
+# moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+# moveit_simple_controller_manager:
+#   controller_names:
+#     - ur_maipulator_controller #changed to joint_trajectory_controller as the controller name for robot showed in ros2 action list
+#     - gripper_controller # changed to robotiq_gripper_controller as the controller name for gripper showed in ros2 action list
+
+#   ur_maipulator_controller:
+#     type: FollowJointTrajectory
+#     joints:
+#       - shoulder_pan_joint
+#       - shoulder_lift_joint
+#       - elbow_joint
+#       - wrist_1_joint
+#       - wrist_2_joint
+#       - wrist_3_joint
+#   gripper_controller:
+#     type: FollowJointTrajectory
+#     joints:
+#       - robotiq_85_left_knuckle_joint
+
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - arm_controller
+    - robotiq_gripper_controller
+
+  arm_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    reliability: reliable
+    durability: transient_local
+    depth: 10
+    history: keep_last
+    deadline: 1000  # ms
+    lifespan: 2000  # ms
+
+  robotiq_gripper_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    default: true
+    joints:
+      - robotiq_85_left_knuckle_joint
+      # - robotiq_85_left_finger_joint
+      # - robotiq_85_right_finger_joint
+    reliability: reliable
+    durability: transient_local
+    depth: 10
+    history: keep_last
+    deadline: 1000  # ms
+    lifespan: 2000  # ms

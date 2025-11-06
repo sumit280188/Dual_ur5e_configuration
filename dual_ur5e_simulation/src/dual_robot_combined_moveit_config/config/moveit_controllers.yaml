@@ -1,0 +1,48 @@
+# MoveIt uses this configuration for controller management
+
+moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
+
+moveit_simple_controller_manager:
+  controller_names:
+    - alice_arm_controller
+    - bob_arm_controller
+    - alice_robotiq_gripper_controller
+    - bob_robotiq_gripper_controller
+
+  alice_arm_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    joints:
+      - alice_shoulder_pan_joint
+      - alice_shoulder_lift_joint
+      - alice_elbow_joint
+      - alice_wrist_1_joint
+      - alice_wrist_2_joint
+      - alice_wrist_3_joint
+    default: true
+
+  bob_arm_controller:
+    type: FollowJointTrajectory
+    action_ns: follow_joint_trajectory
+    joints:
+      - bob_shoulder_pan_joint
+      - bob_shoulder_lift_joint
+      - bob_elbow_joint
+      - bob_wrist_1_joint
+      - bob_wrist_2_joint
+      - bob_wrist_3_joint
+    default: true
+
+  alice_robotiq_gripper_controller:
+    type: GripperCommand
+    action_ns: gripper_cmd
+    joints: 
+      - alice_robotiq_85_left_knuckle_joint
+    default: true
+  
+  bob_robotiq_gripper_controller:
+    type: GripperCommand
+    action_ns: gripper_cmd
+    joints: 
+      - bob_robotiq_85_left_knuckle_joint
+    default: true

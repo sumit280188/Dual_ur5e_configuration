@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>collision_object_manager</name>
+  <version>0.0.1</version>
+  <description>A package that manages collision objects based on manipulator and gripper status</description>
+  <maintainer email="user@example.com">user</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>moveit_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>shape_msgs</depend>
+  <depend>moveit_ros_planning_interface</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

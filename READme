@@ -1,0 +1,60 @@
+# Use only one ign_ros2_control for ur5e and gripper
+
+
+# To run grasb box in simulation: 
+ign service -s /world/default/create   --reqtype ignition.msgs.EntityFactory   --reptype ignition.msgs.Boolean   --timeout 1000   --req 'sdf_filename: "/home/robotik/workspace/src/grasp_box.sdf",
+         name: "grasp_box",
+         pose: {position: {x: 0.34, y: 0.13, z: 0.1}}'
+         
+         x: 0.695, y: 0.168, z: 0.1
+         
+# change the world name accordingly
+
+ROS2 Controller is the action server for the robot and gripper. The action client sends goals to the action server, which executes the commands.
+
+Action Client for Robot:
+
+ros2 action send_goal -f /robotiq_gripper_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "trajectory:
+  header:
+    stamp:
+      sec: 0
+      nanosec: 0
+    frame_id: ''
+  joint_names: ["shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint"]
+  points:
+    - positions: [0.0, -1.57, 1.57, 0.0, 0.0, 0.0]
+      velocities: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+      accelerations: []
+      effort: []
+      time_from_start:
+        sec: 2
+        nanosec: 0
+    - positions: [0.5, -1.0, 1.2, 0.5, 0.2, 0.0]
+      velocities: []
+      accelerations: []
+      effort: []
+      time_from_start:
+        sec: 4
+        nanosec: 0
+
+
+
+
+Action Client for for Gripper:
+
+ros2 action send_goal /robotiq_gripper_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "trajectory:
+  header:
+    stamp:
+      sec: 0
+      nanosec: 0
+    frame_id: ''
+  joint_names: ["robotiq_85_left_knuckle_joint"]
+  points:
+    - positions: [0.8]
+      velocities: [0.0]
+      accelerations: []
+      effort: []
+      time_from_start:
+        sec: 2
+        nanosec: 0"
+

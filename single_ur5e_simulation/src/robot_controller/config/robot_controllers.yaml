@@ -1,0 +1,71 @@
+  controller_manager:
+    ros__parameters:
+      update_rate: 100  # Hz
+      use_sim_time: true 
+      
+      joint_state_broadcaster:
+        type: joint_state_broadcaster/JointStateBroadcaster
+      
+      arm_controller: 
+        type: joint_trajectory_controller/JointTrajectoryController
+      
+      robotiq_gripper_controller:
+        type: joint_trajectory_controller/JointTrajectoryController
+
+  arm_controller:
+    ros__parameters:
+      joints:
+        - shoulder_pan_joint
+        - shoulder_lift_joint
+        - elbow_joint 
+        - wrist_1_joint
+        - wrist_2_joint
+        - wrist_3_joint
+      
+      command_interfaces:
+        - position
+      
+      state_interfaces:
+        - position
+        #- velocity #added velocity to state_interfaces
+      
+      state_publish_rate: 100.0 # Defaults to 50
+      action_monitor_rate: 20.0 # Defaults to 20
+      allow_partial_joints_goal: false # Defaults to false
+      open_loop_control: true
+      allow_integration_in_goal_trajectories: true
+      constraints:
+        stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+        goal_time: 0.0 # Defaults to 0.0 (start immediately)
+      reliability: reliable
+      durability: transient_local
+      # depth: 10
+      # history: keep_last
+      # deadline: 1000  # ms
+      # lifespan: 2000  # ms
+
+  robotiq_gripper_controller:
+    ros__parameters:
+      joints: 
+        - robotiq_85_left_knuckle_joint #joint name should be below joints with a minus
+
+      command_interfaces:
+        - position
+      
+      state_interfaces:
+        - position
+        #- velocity #added velocity to state_interfaces
+      state_publish_rate: 100.0 # Defaults to 50
+      action_monitor_rate: 20.0 # Defaults to 20
+      allow_partial_joints_goal: false # Defaults to false
+      open_loop_control: true
+      allow_integration_in_goal_trajectories: true
+      constraints:
+        stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+        goal_time: 0.0 # Defaults to 0.0 (start immediately)
+      reliability: reliable
+      durability: transient_local
+      # depth: 10
+      # history: keep_last
+      # deadline: 1000  # ms
+      # lifespan: 2000  # ms
