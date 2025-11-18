@@ -1,0 +1,452 @@
+# name: ROS 2 CI for Dual UR5e Workspace
+
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
+
+# jobs:
+#   build_and_test:
+#     runs-on: ubuntu-22.04
+
+#     steps:
+#       # Checkout the repository
+#       - name: Checkout repository
+#         uses: actions/checkout@v3
+
+#       # Setup ROS 2 Humble
+#       - name: Setup ROS 2 Humble
+#         uses: ros-tooling/setup-ros@v0.7
+#         with:
+#           required-ros-distributions: humble
+
+#       # Install rosdep + dependencies
+#       - name: Install dependencies
+#         run: |
+#           sudo apt update
+#           sudo apt install -y python3-rosdep python3-colcon-common-extensions
+#           sudo rosdep init || true
+#           rosdep update
+
+#       # Use rosdep to install dependencies for all packages in workspace/src
+#       - name: Resolve ROS dependencies
+#         run: |
+#           cd workspace
+#           rosdep install --from-paths src --ignore-src -r -y
+
+#       # Build the entire workspace
+#       - name: Build workspace
+#         run: |
+#           source /opt/ros/humble/setup.bash
+#           cd workspace
+#           colcon build
+
+#       # Run tests for all packages
+#       - name: Run tests
+#         run: |
+#           source /opt/ros/humble/setup.bash
+#           cd workspace
+#           colcon test
+#           colcon test-result --verbose
+
+name: ROS2 CI/CD Pipeline
+
+# Trigger the workflow on push or pull request to main/master branch
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+# Define jobs to run
+jobs:
+  # Job 1: Build and Test ROS2 Packages
+  build_and_test:
+    name: Build and Test ROS2 Packages
+    runs-on: ubuntu-22.04  # Ubuntu 22.04 for ROS2 Humble
+    
+    steps:
+      # Step 1: Check out your repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: src
+      
+      # Step 2: Set up ROS2 Humble
+      - name: Setup ROS2 Humble
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      
+      # Step 3: Install dependencies
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            python3-colcon-common-extensions \
+            python3-rosdep \
+            ros-humble-moveit \
+            ros-humble-ur \
+            ros-humble-ur-description \
+            ros-humble-ur-moveit-config \
+            ros-humble-joint-state-publisher \
+            ros-humble-joint-state-publisher-gui \
+            ros-humble-robot-state-publisher \
+            ros-humble-xacro
+          
+          # Initialize rosdep if not already done
+          sudo rosdep init || true
+          rosdep update
+      
+      # Step 4: List all packages found in workspace
+      - name: List ROS2 Packages
+        run: |
+          cd workspace
+          echo "Found packages in workspace:"
+          find src -name "package.xml" -exec dirname {} \; | sort
+      
+      # Step 5: Install package-specific dependencies
+      - name: Install Package Dependencies
+        run: |
+          cd workspace
+          rosdep install --from-paths src --ignore-src -r -y
+      
+      # Step 6: Build the workspace with colcon
+      - name: Build Workspace
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+        env:
+          PYTHONWARNINGS: ignore:::setuptools.command.install
+      
+      # Step 7: List built packages
+      - name: List Built Packages
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          echo "Successfully built packages:"
+          colcon list
+      
+      # Step 8: Run tests for all packages
+      - name: Run Tests
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          colcon test --return-code-on-test-failure
+          colcon test-result --verbose
+        continue-on-error: true  # Continue even if tests fail
+      
+      # Step 9: Check URDF/XACRO files validity
+      - name: Validate URDF Files
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          
+          echo "Searching for URDF/XACRO files..."
+          
+          # Find and check all URDF/XACRO files
+          find src -name "*.urdf.xacro" | while read file; do
+            echo "Processing XACRO file: $file"
+            # Convert XACRO to URDF first
+            xacro "$file" > /tmp/temp.urdf 2>/dev/null || echo "Could not process $file"
+            if [ -f /tmp/temp.urdf ]; then
+              check_urdf /tmp/temp.urdf || echo "URDF check failed for $file"
+              rm /tmp/temp.urdf
+            fi
+          done
+          
+          # Check standalone URDF files
+          find src -name "*.urdf" | while read file; do
+            echo "Checking URDF file: $file"
+            check_urdf "$file" || echo "URDF check failed for $file"
+          done
+
+  # Job 2: Code Quality Check
+  code_quality:
+    name: Code Quality Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      # Check Python code style (ROS2 uses Python 3)
+      - name: Python Linting
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install flake8 pylint
+          
+          # Find and lint all Python files
+          echo "Running flake8..."
+          find . -path ./src -prune -o -name "*.py" -type f -print | xargs flake8 --max-line-length=120 --ignore=E501,W503 || true
+          
+          echo "Running pylint..."
+          find . -path ./src -prune -o -name "*.py" -type f -print | xargs pylint --disable=all --enable=E,F || true
+      
+      # Check C++ code style (if you have C++ nodes)
+      - name: C++ Linting
+        run: |
+          sudo apt-get install -y clang-format
+          
+          # Find and check C++ files
+          find src -name "*.cpp" -o -name "*.hpp" | while read file; do
+            echo "Checking $file"
+            clang-format --dry-run --Werror "$file" 2>&1 || true
+          done
+      
+      # Check for common issues
+      - name: Check for TODO/FIXME
+        run: |
+          echo "Checking for TODO and FIXME comments..."
+          grep -r "TODO\|FIXME" --include="*.py" --include="*.cpp" --include="*.launch.py" src/ || echo "No TODO/FIXME found"
+      
+      # Check package.xml validity for all packages
+      - name: Validate package.xml Files
+        run: |
+          sudo apt-get install -y python3-catkin-pkg
+          find src -name "package.xml" | while read file; do
+            echo "Validating $file"
+            python3 -c "import catkin_pkg.package; catkin_pkg.package.parse_package('$file')" || echo "Invalid package.xml: $file"
+          done
+
+  # Job 3: Documentation Check
+  documentation:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Check README exists
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "Warning: README.md not found in repository root!"
+            exit 1
+          fi
+          echo "README.md found ✓"
+      
+      - name: Check Each Package Has package.xml
+        run: |
+          echo "Checking for package.xml in each package..."
+          MISSING_PACKAGES=0
+          
+          # Find all directories that might be packages (contain launch/, src/, or config/)
+          find src -type d \( -name launch -o -name config -o -name urdf \) -exec dirname {} \; | sort -u | while read pkg_dir; do
+            if [ ! -f "$pkg_dir/package.xml" ]; then
+              echo "WARNING: $pkg_dir appears to be a package but missing package.xml"
+              MISSING_PACKAGES=$((MISSING_PACKAGES + 1))
+            fi
+          done
+          
+          if [ $MISSING_PACKAGES -gt 0 ]; then
+            echo "Found $MISSING_PACKAGES packages without package.xml"
+          fi
+      
+      - name: Check Launch Files
+        run: |
+          echo "Checking for ROS2 launch files..."
+          PYTHON_LAUNCH=$(find src -name "*.launch.py" -type f | wc -l)
+          XML_LAUNCH=$(find src -name "*.launch.xml" -type f | wc -l)
+          
+          echo "Found $PYTHON_LAUNCH Python launch files (.launch.py)"
+          echo "Found $XML_LAUNCH XML launch files (.launch.xml)"
+          
+          if [ $XML_LAUNCH -gt 0 ]; then
+            echo "Note: XML launch files are deprecated in ROS2. Consider migrating to Python."
+          fi
+          
+          # List all launch files
+          find src -name "*.launch.py" -o -name "*.launch.xml" | while read file; do
+            echo "  - $file"
+          done
+
+  # # Job 4: Docker Image Build
+  # docker_build:
+  #   name: Build Docker Image
+  #   runs-on: ubuntu-latest
+  #   needs: build_and_test  # Only run if build_and_test succeeds
+  #   if: github.event_name == 'push'  # Only on push, not PR
+    
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v3
+      
+  #     - name: Set up Docker Buildx
+  #       uses: docker/setup-buildx-action@v2
+      
+  #     - name: Login to Docker Hub (Optional)
+  #       if: github.ref == 'refs/heads/main'
+  #       uses: docker/login-action@v2
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
+  #       continue-on-error: true
+      
+  #     - name: Create Dockerfile if not exists
+  #       run: |
+  #         if [ ! -f "Dockerfile" ]; then
+  #           cat > Dockerfile << 'EOF'
+  #         FROM ros:humble
+          
+  #         # Install dependencies
+  #         RUN apt-get update && apt-get install -y \
+  #             ros-humble-moveit \
+  #             ros-humble-ur \
+  #             ros-humble-ur-description \
+  #             ros-humble-ur-moveit-config \
+  #             python3-colcon-common-extensions \
+  #             && rm -rf /var/lib/apt/lists/*
+          
+  #         # Create workspace
+  #         WORKDIR /ros2_ws
+  #         COPY . /ros2_ws/src
+          
+  #         # Install package dependencies
+  #         RUN . /opt/ros/humble/setup.sh && \
+  #             rosdep update && \
+  #             rosdep install --from-paths src --ignore-src -r -y
+          
+  #         # Build workspace
+  #         RUN . /opt/ros/humble/setup.sh && \
+  #             colcon build --symlink-install
+          
+  #         # Setup entrypoint
+  #         RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc && \
+  #             echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
+          
+  #         CMD ["bash"]
+  #         EOF
+  #           echo "Created default Dockerfile"
+  #         fi
+      
+  #     - name: Build Docker Image
+  #       run: |
+  #         docker build -t dual-ur5e-ros2:latest .
+      
+  #     - name: Push to Docker Hub
+  #       if: github.ref == 'refs/heads/main'
+  #       run: |
+  #         if [ ! -z "${{ secrets.DOCKER_USERNAME }}" ]; then
+  #           docker tag dual-ur5e-ros2:latest ${{ secrets.DOCKER_USERNAME }}/dual-ur5e-ros2:latest
+  #           docker tag dual-ur5e-ros2:latest ${{ secrets.DOCKER_USERNAME }}/dual-ur5e-ros2:humble
+  #           docker push ${{ secrets.DOCKER_USERNAME }}/dual-ur5e-ros2:latest
+  #           docker push ${{ secrets.DOCKER_USERNAME }}/dual-ur5e-ros2:humble
+  #           echo "Docker images pushed successfully"
+  #         else
+  #           echo "Docker Hub credentials not configured. Skipping push."
+  #         fi
+  #       continue-on-error: true
+
+  # Job 5: Static Analysis with ament
+  static_analysis:
+    name: Static Analysis
+    runs-on: ubuntu-22.04
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: src
+      
+      - name: Setup ROS2 Humble
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      
+      - name: Install ament linters
+        run: |
+          source /opt/ros/humble/setup.bash
+          sudo apt-get update
+          sudo apt-get install -y \
+            ros-humble-ament-cmake-clang-format \
+            ros-humble-ament-cmake-cppcheck \
+            ros-humble-ament-cmake-cpplint \
+            ros-humble-ament-cmake-flake8 \
+            ros-humble-ament-cmake-lint-cmake \
+            ros-humble-ament-cmake-pep257 \
+            ros-humble-ament-cmake-xmllint
+      
+      - name: Run ament linters
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          
+          # Run linters on all packages
+          echo "Running ament_flake8..."
+          ament_flake8 src || true
+          
+          echo "Running ament_pep257..."
+          ament_pep257 src || true
+          
+          echo "Running ament_xmllint..."
+          ament_xmllint src || true
+          
+          echo "Running ament_lint_cmake..."
+          ament_lint_cmake src || true
+
+  # Job 6: Integration Test (Optional - for Gazebo simulation)
+  integration_test:
+    name: Integration Test
+    runs-on: ubuntu-22.04
+    needs: build_and_test
+    if: github.event_name == 'push'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          path: src
+      
+      - name: Setup ROS2 Humble
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+      
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            ros-humble-gazebo-ros-pkgs \
+            ros-humble-ros2-control \
+            ros-humble-ros2-controllers \
+            ros-humble-gazebo-ros2-control \
+            ros-humble-xacro
+      
+      - name: Install Package Dependencies
+        run: |
+          cd workspace
+          rosdep install --from-paths src --ignore-src -r -y
+      
+      - name: Build Workspace
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          colcon build --symlink-install
+      
+      - name: Test Launch Files
+        run: |
+          cd workspace
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          
+          # Find and test all launch files (with timeout)
+          find src -name "*.launch.py" | while read launch_file; do
+            echo "Testing launch file: $launch_file"
+            
+            # Extract package name from path
+            pkg_name=$(echo $launch_file | sed 's|src/||' | cut -d'/' -f1)
+            launch_name=$(basename $launch_file)
+            
+            echo "Attempting to launch: ros2 launch $pkg_name $launch_name"
+            
+            # Try to launch (timeout after 15 seconds for headless test)
+            timeout 15s ros2 launch $pkg_name $launch_name 2>&1 || echo "Launch test completed for $launch_file"
+          done
+        continue-on-error: true
