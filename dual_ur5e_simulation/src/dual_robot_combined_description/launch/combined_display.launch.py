@@ -63,7 +63,7 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="screen",
-        parameters=[robot_description],
+        parameters=[robot_description, {'publish_frequency': 30.0}]
     )
 
     # This will just republish joint states without GUI

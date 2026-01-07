@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5e_hande_config">
+
+    <xacro:arg name="initial_positions_file" default="$(find robot_ur5e_hande_controller)/config/ur5e_hande_initial_positions.yaml"/>
+
+    <!-- Root link -->
+    <link name="world"/>
+
+    <!-- Xacro imports -->
+    <xacro:include filename="ur5e_hande_macro.urdf.xacro" />
+
+    <xacro:ur5e_gripper name="ur5e_hande" tf_prefix="" prefix="" parent="world" initial_positions_file="$(arg initial_positions_file)">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:ur5e_gripper>
+
+    <gazebo>
+        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+            <parameters>$(find robot_ur5e_hande_controller)/config/robot_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+</robot>

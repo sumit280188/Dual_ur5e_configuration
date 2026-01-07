@@ -38,8 +38,8 @@ class IfcWallStandardCaseParser(Node):
         super().__init__('ifc_wall_standard_case_parser')
 
         # QoS for collision objects (latched + reliable)
-        qos_attached = QoSProfile(depth=1)
-        qos_attached.durability = DurabilityPolicy.TRANSIENT_LOCAL
+        qos_attached = QoSProfile(depth=10)
+        qos_attached.durability = DurabilityPolicy.VOLATILE
         qos_attached.reliability = ReliabilityPolicy.RELIABLE
         qos_attached.history = QoSHistoryPolicy.KEEP_LAST
 

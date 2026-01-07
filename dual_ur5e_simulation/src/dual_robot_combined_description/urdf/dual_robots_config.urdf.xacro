@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dual_robots_config">
 
+    <xacro:arg name="alice_initial_positions_file" default="$(find dual_robot_combined_moveit_config)/config/alice_initial_positions.yaml"/>
+    <xacro:arg name="bob_initial_positions_file" default="$(find dual_robot_combined_moveit_config)/config/bob_initial_positions.yaml"/>
+
     <!-- Root link -->
     <link name="world"/>
 
@@ -8,12 +11,12 @@
     <xacro:include filename="robot_with_gripper.urdf.xacro" />
 
     <!-- alice -->
-    <xacro:ur5e_gripper name="alice_" tf_prefix="alice_" prefix="alice_" parent="world">
+    <xacro:ur5e_gripper name="alice_" tf_prefix="alice_" prefix="alice_" parent="world" initial_positions_file="$(arg alice_initial_positions_file)">
         <origin xyz="0.5 0 0" rpy="0 0 0" />
     </xacro:ur5e_gripper>
 
     <!-- bob -->
-    <xacro:ur5e_gripper name="bob_" tf_prefix="bob_" prefix="bob_" parent="world">
+    <xacro:ur5e_gripper name="bob_" tf_prefix="bob_" prefix="bob_" parent="world" initial_positions_file="$(arg bob_initial_positions_file)">
         <origin xyz="-0.5 0 0" rpy="0 0 0" />
     </xacro:ur5e_gripper>
 

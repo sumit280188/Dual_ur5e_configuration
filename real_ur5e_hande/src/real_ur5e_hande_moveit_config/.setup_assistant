@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: real_ur5e_hande_description
+    relative_path: urdf/real_ur5e_hande_config.urdf.xacro
+  srdf:
+    relative_path: config/real_ur5e_hande.srdf
+  package_settings:
+    author_name: Sumit
+    author_email: thantharate@e3d.rwth-aachen.de
+    generated_timestamp: 1767712678

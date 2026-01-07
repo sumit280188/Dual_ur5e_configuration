@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import os
-import json  # <-- added
+import json
 import numpy as np
 import rclpy
 import ifcopenshell
@@ -12,17 +12,13 @@ from geometry_msgs.msg import Pose, Point
 from shape_msgs.msg import Mesh as MeshMsg, MeshTriangle, SolidPrimitive
 from moveit_msgs.msg import CollisionObject
 from moveit_msgs.msg import AttachedCollisionObject
-from ament_index_python.packages import get_package_share_directory  # <-- added
+from ament_index_python.packages import get_package_share_directory
 
 
 class Spawner(Node):
     """
     Receives spawn requests (index:i), loads the i-th IFC product mesh,
     stages it, and publishes as a CollisionObject ADD.
-
-    Publishes:
-      - /spawned_collision_object_id : the GlobalId of the last spawned object (latched)
-      - /bim/last_spawned_id         : legacy (non-latched)
     """
 
     def __init__(self):
@@ -41,20 +37,20 @@ class Spawner(Node):
         self.unit_scale = float(
             self.declare_parameter('unit_scale', 1.0).get_parameter_value().double_value
         )
-        # Let the JSON filename be configurable (default same as sequencer)
         self.json_filename = self.declare_parameter(
             'json_filename', 'MontageSequenz_Gesamt.json'
         ).get_parameter_value().string_value
 
         self.stage_xyz = np.array([-1.0, 0.0, 0.0], dtype=float)
         self.extra_yaw_deg = 90.0
-        # Ensure lowest point is above z=0 by this clearance (meters)
         self.floor_clearance = float(
             self.declare_parameter('floor_clearance', 0.001).get_parameter_value().double_value
         )
 
-        qos = QoSProfile(depth=1)
-        qos.durability = DurabilityPolicy.TRANSIENT_LOCAL
+        # FIX 1: Use VOLATILE durability to prevent late-joiner cache issues
+        qos = QoSProfile(depth=10)
+        qos.durability = DurabilityPolicy.VOLATILE  # Changed from TRANSIENT_LOCAL
+        qos.reliability = ReliabilityPolicy.RELIABLE
 
         self.co_pub = self.create_publisher(CollisionObject, 'collision_object', qos)
         self.spawn_sub = self.create_subscription(
@@ -74,20 +70,24 @@ class Spawner(Node):
         self.attach_sub = self.create_subscription(String, '/bim/attach_request', self._on_attach_request, 10)
         self.detach_sub = self.create_subscription(String, '/bim/detach_request', self._on_detach_request, 10)
 
-        # --- Floor: publish now and once more shortly after startup ---
-        self._publish_floor()
-        self._floor_timer = self.create_timer(0.5, self._republish_floor_once)
+        # FIX 2: Track spawned objects to avoid duplicates
+        self.spawned_objects = set()
 
-        self._load_ifc_meshes()             # builds self.ids / self.meshes from ALL products
-        self._maybe_apply_json_order()      # NEW: reorder to match JSON MontageIndex → IfcGUID
+        # FIX 3: Publish floor only once after short delay
+        self._floor_timer = self.create_timer(1.0, self._publish_floor_once)
+
+        self._load_ifc_meshes()
+        self._maybe_apply_json_order()
 
         self.get_logger().info(
             f"Spawner ready. Loaded {len(self.ids)} IFC products from: {self.ifc_path}"
         )
 
-    def _publish_floor(self):
+    def _publish_floor_once(self):
+        """Publish floor exactly once after startup delay"""
         floor = CollisionObject()
         floor.header = Header(frame_id=self.world_frame)
+        floor.header.stamp = self.get_clock().now().to_msg()  # Add timestamp
         floor.id = "floor"
         box = SolidPrimitive()
         box.type = SolidPrimitive.BOX
@@ -98,12 +98,11 @@ class Spawner(Node):
         floor.primitives = [box]
         floor.primitive_poses = [floor_pose]
         floor.operation = CollisionObject.ADD
+        
         self.co_pub.publish(floor)
         self.get_logger().info("Published floor collision object.")
-
-    def _republish_floor_once(self):
-        self._publish_floor()
-        # cancel this one-shot timer
+        
+        # Cancel timer - only publish once
         self._floor_timer.cancel()
 
     def _load_ifc_meshes(self):
@@ -120,7 +119,6 @@ class Spawner(Node):
         except Exception:
             pass
 
-        # Load ALL IFC products, not only IfcFlowSegment
         ents = list(model.by_type('IfcProduct'))
         if not ents:
             raise RuntimeError("No IfcProduct found in IFC.")
@@ -154,17 +152,12 @@ class Spawner(Node):
                 continue
 
     def _maybe_apply_json_order(self):
-        """
-        If resource/MontageSequenz_Gesamt.json exists (installed share path),
-        reorder self.ids/self.meshes to match its MontageIndex → IfcGUID order.
-        """
         try:
             pkg_share = get_package_share_directory('bim_object_sequencer')
             json_path = os.path.join(pkg_share, 'resource', self.json_filename)
         except Exception:
-            # If the package isn't installed (dev run), try source path as a fallback
             json_path = os.path.join(
-                os.path.dirname(os.path.dirname(self.ifc_path)),  # .../bim_object_sequencer
+                os.path.dirname(os.path.dirname(self.ifc_path)),
                 'resource',
                 self.json_filename
             )
@@ -180,7 +173,6 @@ class Spawner(Node):
             self.get_logger().warn(f"Failed to parse JSON order: {e}; keeping IFC enumeration order.")
             return
 
-        # Build GUID -> (verts, faces) lookup from the already prepared meshes
         gid_to_mesh = {gid: mf for gid, mf in zip(self.ids, self.meshes)}
 
         ordered_pairs = []
@@ -238,7 +230,6 @@ class Spawner(Node):
         V_yaw = V_rot @ Rz
         V_new = V_yaw + self.stage_xyz
 
-        # --- NEW: lift so the lowest vertex clears the floor by floor_clearance ---
         min_z = float(V_new[:, 2].min())
         dz = self.floor_clearance - min_z
         if dz > 0.0:
@@ -262,8 +253,13 @@ class Spawner(Node):
             return
 
         gid = self.ids[idx]
-        verts, faces = self.meshes[idx]
+        
+        # FIX 4: Check if already spawned to prevent republishing
+        if gid in self.spawned_objects:
+            self.get_logger().warn(f"Object {gid} already spawned, skipping duplicate.")
+            return
 
+        verts, faces = self.meshes[idx]
         verts_stage = self._align_long_axis_and_stage(verts)
 
         mesh_msg = MeshMsg()
@@ -277,20 +273,22 @@ class Spawner(Node):
         co = CollisionObject()
         co.id = gid
         co.header = Header(frame_id=self.world_frame)
+        co.header.stamp = self.get_clock().now().to_msg()  # FIX 5: Add timestamp
         co.meshes = [mesh_msg]
         co.mesh_poses = [Pose()]
         co.operation = CollisionObject.ADD
 
         self.co_pub.publish(co)
+        self.spawned_objects.add(gid)  # Track spawned object
+        
         self.get_logger().info(
             f"Published IFC product index {idx} ({gid}) staged at {tuple(self.stage_xyz)}."
         )
 
-        # Publish the GlobalId on both topics
         last_msg = String()
         last_msg.data = gid
         self.last_spawned_pub.publish(last_msg)
-        self.spawned_id_pub.publish(last_msg)  # <-- for attach_detach
+        self.spawned_id_pub.publish(last_msg)
 
     def _on_attach_request(self, msg: String):
         try:
@@ -351,6 +349,7 @@ class Spawner(Node):
             co = CollisionObject()
             co.id = gid
             co.header = Header(frame_id=self.world_frame)
+            co.header.stamp = self.get_clock().now().to_msg()  # Add timestamp
             co.meshes = [mesh_msg]
 
             pose = Pose()
@@ -373,4 +372,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

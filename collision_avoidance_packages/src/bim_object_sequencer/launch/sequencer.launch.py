@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     # 1) Start C++ attach/detach manager immediately
     attach_detach = Node(
-        package='add_collision_objects',
+        package='collision_object_manager',
         executable='attach_detach',
         name='attach_detach',
         output='screen'

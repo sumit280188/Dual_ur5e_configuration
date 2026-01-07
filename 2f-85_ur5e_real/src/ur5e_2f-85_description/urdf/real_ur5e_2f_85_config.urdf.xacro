@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dual_robots_config">
+
+    <xacro:arg name="initial_positions_file" default="$(find ur5e_2f-85_description)/config/initial_positions.yaml"/>
+
+    <!-- Root link -->
+    <link name="world"/>
+
+    <!-- Xacro imports -->
+    <xacro:include filename="real_ur5e_2f_85_macro.urdf.xacro" />
+
+    <xacro:real_ur5e_2f-85_gripper name="" tf_prefix="" prefix="" parent="world" initial_positions_file="$(arg initial_positions_file)">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+    </xacro:real_ur5e_2f-85_gripper>
+
+</robot>

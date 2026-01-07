@@ -127,12 +127,18 @@ def generate_launch_description():
     # ROBOT STATE PUBLISHER (Single for combined URDF)
     # ========================================
     robot_state_publisher_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        output="screen",
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        name='robot_state_publisher',
+        output='screen',
         parameters=[
             robot_description,
-            {"use_sim_time": use_sim_time},
+            {
+                'publish_frequency': 50.0,  # Publish at 50 Hz
+                'use_sim_time': True,
+                'ignore_timestamp': False,  # Important for Gazebo
+                'frame_prefix': '',
+            }
         ],
     )
 
@@ -154,26 +160,6 @@ def generate_launch_description():
     # ========================================
     # GAZEBO SIMULATION
     # ========================================
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [
-                os.path.join(get_package_share_directory("ros_gz_sim"), "launch"),
-                "/gz_sim.launch.py",
-            ]
-        ),
-        launch_arguments=[
-            ("gz_args", [" -v ", gz_verbosity, " -r ", world_file]),
-            ("on_exit_shutdown", "true"),
-        ],
-    )
-    
-    # Get world path
-    # custom_world_path = os.path.join(
-    #     get_package_share_directory("dual_robot_combined_description"),
-    #     "worlds",
-    #     "custom_world.sdf"
-    # )
-    
     # gazebo = IncludeLaunchDescription(
     #     PythonLaunchDescriptionSource(
     #         [
@@ -181,11 +167,31 @@ def generate_launch_description():
     #             "/gz_sim.launch.py",
     #         ]
     #     ),
-    #     #launch_arguments=[("gz_args", " -v 4 -r empty.sdf ")],
     #     launch_arguments=[
-    #     ("gz_args", f" -v 4 -r {custom_world_path} ")
+    #         ("gz_args", [" -v ", gz_verbosity, " -r ", world_file]),
+    #         ("on_exit_shutdown", "true"),
     #     ],
     # )
+    
+    # Get world path
+    custom_world_path = os.path.join(
+        get_package_share_directory("dual_robot_combined_description"),
+        "worlds",
+        "custom_world.sdf"
+    )
+    
+    gazebo = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [
+                os.path.join(get_package_share_directory("ros_gz_sim"), "launch"),
+                "/gz_sim.launch.py",
+            ]
+        ),
+        #launch_arguments=[("gz_args", " -v 4 -r empty.sdf ")],
+        launch_arguments=[
+        ("gz_args", f" -v 4 -r {custom_world_path} ")
+        ],
+    )
 
     # ========================================
     # SPAWN COMBINED ROBOT IN GAZEBO
@@ -217,8 +223,8 @@ def generate_launch_description():
         arguments=["/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock"],
         parameters=[
             {"use_sim_time": use_sim_time},
-            {"qos_overrides./clock.publisher.reliability": "reliable"},
-            {"qos_overrides./clock.publisher.durability": "transient_local"},
+            # {"qos_overrides./clock.publisher.reliability": "reliable"},
+            # {"qos_overrides./clock.publisher.durability": "transient_local"},
         ],
         output="screen",
     )
@@ -234,6 +240,7 @@ def generate_launch_description():
                 executable="spawner",
                 arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
                 output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
             )
         ],
     )
@@ -246,6 +253,7 @@ def generate_launch_description():
                 executable="spawner",
                 arguments=["alice_arm_controller", "--controller-manager", "/controller_manager"],
                 output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
             )
         ],
     )
@@ -258,6 +266,7 @@ def generate_launch_description():
                 executable="spawner",
                 arguments=["bob_arm_controller", "--controller-manager", "/controller_manager"],
                 output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
             )
         ],
     )
@@ -270,6 +279,7 @@ def generate_launch_description():
                 executable="spawner",
                 arguments=["alice_robotiq_gripper_controller", "--controller-manager", "/controller_manager"],
                 output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
             )
         ],
     )
@@ -282,6 +292,7 @@ def generate_launch_description():
                 executable="spawner",
                 arguments=["bob_robotiq_gripper_controller", "--controller-manager", "/controller_manager"],
                 output="screen",
+                parameters=[{"use_sim_time": use_sim_time}],
             )
         ],
     )

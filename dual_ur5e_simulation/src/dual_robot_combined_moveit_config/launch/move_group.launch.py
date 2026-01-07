@@ -3,7 +3,13 @@ from launch_ros.actions import Node
 from moveit_configs_utils import MoveItConfigsBuilder
 from ament_index_python.packages import get_package_share_directory
 import os
-from ur_moveit_config.launch_common import load_yaml
+import yaml
+
+def load_yaml(package_name, file_path):
+    """Load a YAML file from a package share directory and return its contents as a dict."""
+    yaml_path = os.path.join(get_package_share_directory(package_name), file_path)
+    with open(yaml_path, "r") as f:
+        return yaml.safe_load(f)
 
 def generate_launch_description():
     # Build MoveIt config for the dual robot system
@@ -51,14 +57,15 @@ def generate_launch_description():
         "workspace_parameters.max_corner.y": 2.0,
         "workspace_parameters.max_corner.z": 2.0,
     }
+
     # Planning scene monitor parameters
-    planning_scene_monitor_parameters = {
-        "publish_planning_scene": True,
-        "publish_geometry_updates": True,
-        "publish_state_updates": True,
-        "publish_transforms_updates": True,
-        "monitor_dynamics": False,
-    }        
+    # planning_scene_monitor_parameters = {
+    #     "publish_planning_scene": True,
+    #     "publish_geometry_updates": True,
+    #     "publish_state_updates": True,
+    #     "publish_transforms_updates": True,
+    #     "monitor_dynamics": False,
+    # }        
     
     # Planning Functionality
     planning_pipelines_config = {
@@ -100,7 +107,17 @@ def generate_launch_description():
                 #"trajectory_execution.allowed_goal_duration_margin": 0.5,
             },
             workspace_boundaries,
-            planning_scene_monitor_parameters,
+            #planning_scene_monitor_parameters,
+            {
+            "planning_scene_monitor.publish_planning_scene": True,
+            "planning_scene_monitor.publish_planning_scene_frequency": 1.0,
+            "planning_scene_monitor.publish_geometry_updates": True,
+            "planning_scene_monitor.publish_state_updates": True,
+            "planning_scene_monitor.publish_transforms_updates": True,
+            "planning_scene_monitor.publish_robot_description": True,
+            "planning_scene_monitor.publish_robot_description_semantic": True,
+            #"planning_scene_monitor.monitored_planning_scene_topic": "/monitored_planning_scene",
+            },
             planning_pipelines_config,
         ],
         # For a unified robot description, you need to aggregate joint states from both robots

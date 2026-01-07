@@ -23,7 +23,7 @@ class Sequencer(Node):
         # Parameters (keep existing ones so launches don't break)
         self.ifc_path = self.declare_parameter(
             'ifc_path',
-            '/home/robotik/workspace/src/collision_avoidance_packages/src/bim_object_sequencer/resource/file.ifc'
+            '/home/bidinger/ros_ws/src/bim_object_sequencer/resource/file.ifc'
         ).get_parameter_value().string_value  # not used here, JSON is authoritative
 
         self.max_objects = self.declare_parameter('max_objects', 0).get_parameter_value().integer_value  # 0 = all

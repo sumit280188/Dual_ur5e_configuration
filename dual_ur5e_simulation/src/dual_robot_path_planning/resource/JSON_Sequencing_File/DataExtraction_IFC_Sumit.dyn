@@ -1,0 +1,948 @@
+{
+  "Uuid": "717f712c-faa2-4c91-a609-263110141a4f",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "DataExtraction_IFC_Sumit",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "5cda2da9fc614ffab9fc0d03386f8964",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "82c11308dcc4495c8341f2669b787888",
+          "Name": "Category",
+          "Description": "Die Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e0ca1f1efa2b4be6bebdccdcac0efd42",
+          "Name": "Elements",
+          "Description": "Eine Elementklasse.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ruft alle Elemente der angegebenen Kategorie aus dem Modell ab."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 11,
+      "SelectedString": "OST_GenericModel",
+      "Id": "72be0c05b71c4e55a203c7533c34b02b",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "50e9c97ba63049acb73ba347f438fe54",
+          "Name": "Category",
+          "Description": "Die ausgewählte Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Alle integrierten Kategorien"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "8cb85182fcc94318a596f967dbe665ab",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "80181fd686224e5b81216592e1aadefa",
+          "Name": "Category",
+          "Description": "Die Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7e3304447f3641a1ab18b504a89e718d",
+          "Name": "Elements",
+          "Description": "Eine Elementklasse.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ruft alle Elemente der angegebenen Kategorie aus dem Modell ab."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 559,
+      "SelectedString": "OST_PipeFitting",
+      "Id": "dc381dbd75de4820ac1137cc4d44421d",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9fbcb99f437f44f1ad1ea0ce9ca9b962",
+          "Name": "Category",
+          "Description": "Die ausgewählte Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Alle integrierten Kategorien"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "import clr, math\r\nclr.AddReference(\"RevitAPI\"); from Autodesk.Revit.DB import *\r\nclr.AddReference(\"RevitServices\"); from RevitServices.Persistence import DocumentManager\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nclr.AddReference(\"ProtoGeometry\"); from Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\n# optional: Dynamo-Wrapper\r\ntry:\r\n    clr.AddReference(\"RevitNodes\"); import Revit\r\nexcept: pass\r\n\r\n# --------- helpers ----------\r\ndef flatten(x):\r\n    if isinstance(x, list):\r\n        r=[]; [r.extend(flatten(i)) for i in x]; return r\r\n    return [x]\r\n\r\ndef to_db(el):\r\n    # Dynamo-Wrapper → DB.Element\r\n    try:\r\n        ie = el.InternalElement\r\n        if isinstance(ie, Element): return ie\r\n    except: pass\r\n    try:\r\n        ue = UnwrapElement(el)\r\n        if isinstance(ue, Element): return ue\r\n    except: pass\r\n    if isinstance(el, Element): return el\r\n    return None\r\n\r\ndef pt(xyz): return DSPt.ByCoordinates(xyz.X, xyz.Y, xyz.Z)\r\ndef pt_from_bb(bb):\r\n    return DSPt.ByCoordinates((bb.Min.X+bb.Max.X)/2.0,(bb.Min.Y+bb.Max.Y)/2.0,(bb.Min.Z+bb.Max.Z)/2.0)\r\n\r\ndef midpoint(e):\r\n    # bevorzugt: FamilyInstance.Transform.Origin\r\n    if isinstance(e, FamilyInstance):\r\n        try:\r\n            tr = e.GetTransform()\r\n            if tr: \r\n                o = tr.Origin\r\n                if abs(o.X)+abs(o.Y)+abs(o.Z) > 1e-7: return pt(o)\r\n        except: pass\r\n    # Location\r\n    loc = e.Location\r\n    if isinstance(loc, LocationPoint):\r\n        p = loc.Point\r\n        if abs(p.X)+abs(p.Y)+abs(p.Z) > 1e-7: return pt(p)\r\n    elif isinstance(loc, LocationCurve):\r\n        mp = loc.Curve.Evaluate(0.5, True); return pt(mp)\r\n    # BoundingBox global\r\n    try:\r\n        bb = e.get_BoundingBox(None)\r\n        if bb: return pt_from_bb(bb)\r\n    except: pass\r\n    # Solids-Centroid (ohne View)\r\n    opts = Options(); opts.DetailLevel = ViewDetailLevel.Fine; opts.IncludeNonVisibleObjects = True\r\n    ge = e.get_Geometry(opts)\r\n    solids=[]\r\n    if ge:\r\n        for g in ge:\r\n            if isinstance(g, Solid) and g.Volume > 1e-9: solids.append(g)\r\n            elif isinstance(g, GeometryInstance):\r\n                for gi in g.GetInstanceGeometry():\r\n                    if isinstance(gi, Solid) and gi.Volume > 1e-9: solids.append(gi)\r\n    if solids:\r\n        V=cx=cy=cz=0.0\r\n        for s in solids:\r\n            try: c = s.ComputeCentroid()\r\n            except:\r\n                bb = s.GetBoundingBox(); \r\n                c = XYZ((bb.Min.X+bb.Max.X)/2.0,(bb.Min.Y+bb.Max.Y)/2.0,(bb.Min.Z+bb.Max.Z)/2.0)\r\n            v = max(s.Volume,0.0); \r\n            if v>0: V+=v; cx+=c.X*v; cy+=c.Y*v; cz+=c.Z*v\r\n        if V>0: \r\n            from Autodesk.DesignScript.Geometry import Point as DSPt\r\n            return DSPt.ByCoordinates(cx/V, cy/V, cz/V)\r\n    return DSPt.ByCoordinates(0,0,0)\r\n\r\ndef euler_zyx_from_matrix(bx, by, bz):\r\n    \"\"\"\r\n    Revit Transform liefert Spaltenvektoren (BasisX/Y/Z) in Weltkoordinaten.\r\n    Zerlegung R = Rz(yaw)*Ry(pitch)*Rx(roll) (Z-Y-X).\r\n    \"\"\"\r\n    r11, r21, r31 = bx.X, bx.Y, bx.Z\r\n    r12, r22, r32 = by.X, by.Y, by.Z\r\n    r13, r23, r33 = bz.X, bz.Y, bz.Z\r\n\r\n    # numerische Stabilität\r\n    r31 = max(min(r31, 1.0), -1.0)\r\n    # Pitch\r\n    pitch = math.asin(-r31)\r\n    cp = math.cos(pitch)\r\n    if abs(cp) > 1e-8:\r\n        roll  = math.atan2(r32, r33)\r\n        yaw   = math.atan2(r21, r11)\r\n    else:\r\n        # Gimbal lock: cp≈0 => r31≈±1\r\n        roll  = 0.0\r\n        yaw   = math.atan2(-r12, r22)\r\n\r\n    # in Grad 0..360 normieren\r\n    def deg(a): \r\n        d = math.degrees(a)\r\n        d = d % 360.0\r\n        if d < 0: d += 360.0\r\n        return d\r\n    return (deg(yaw), deg(pitch), deg(roll))\r\n\r\ndef rotation_ypr(e):\r\n    # 1) FamilyInstance: vollständige Transform\r\n    if isinstance(e, FamilyInstance):\r\n        try:\r\n            tr = e.GetTransform()\r\n            if tr:\r\n                return euler_zyx_from_matrix(tr.BasisX, tr.BasisY, tr.BasisZ)\r\n        except: pass\r\n    # 2) Kurvenbasiert: Richtungsvektor → Yaw/Pitch, Roll=0\r\n    loc = e.Location\r\n    if isinstance(loc, LocationCurve):\r\n        dv = loc.Curve.ComputeDerivatives(0.5, True).BasisX\r\n        # Richtung normalisieren\r\n        mag = math.sqrt(dv.X*dv.X + dv.Y*dv.Y + dv.Z*dv.Z)\r\n        if mag > 1e-9:\r\n            dx, dy, dz = dv.X/mag, dv.Y/mag, dv.Z/mag\r\n            yaw   = math.degrees(math.atan2(dy, dx)) % 360.0\r\n            pitch = math.degrees(math.atan2(-dz, math.sqrt(dx*dx + dy*dy))) % 360.0\r\n            roll  = 0.0\r\n            return (yaw, pitch, roll)\r\n    # 3) Wände/ähnliche: Orientierung in XY → nur Yaw\r\n    if isinstance(e, Wall):\r\n        v = e.Orientation\r\n        yaw = math.degrees(math.atan2(v.Y, v.X)) % 360.0\r\n        return (yaw, 0.0, 0.0)\r\n    # 4) Kein besserer Anhalt → 0/0/0\r\n    return (0.0, 0.0, 0.0)\r\n\r\ndef ifc_guid(e):\r\n    try:\r\n        from Autodesk.Revit.DB import ExporterIFCUtils\r\n        g = ExporterIFCUtils.CreateGUID(e.Id)\r\n        if g: return g\r\n    except: pass\r\n    for pname in (\"IFC GUID\",\"IfcGUID\",\"IFCGUID\",\"IFCGlobalId\"):\r\n        p = e.LookupParameter(pname)\r\n        if p and p.StorageType == StorageType.String:\r\n            v = p.AsString()\r\n            if v: return v\r\n    try: return e.UniqueId\r\n    except: return str(e.Id.IntegerValue)\r\n\r\n# --------- run ----------\r\nraw = flatten(IN[0])\r\ndb = [to_db(x) for x in raw if x is not None and not isinstance(x, ElementType)]\r\nguids  = [ifc_guid(e) for e in db]\r\npoints = [midpoint(e) for e in db]\r\nypr    = [rotation_ypr(e) for e in db]\r\nyaw_deg   = [t[0] for t in ypr]\r\npitch_deg = [t[1] for t in ypr]\r\nroll_deg  = [t[2] for t in ypr]\r\nOUT = [guids, points, yaw_deg, pitch_deg, roll_deg]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "ff89c593512f4fe680541afb30504304",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "7fcbd3f12bcb41ebad74b4f2dc275b1f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9b8546a878884a2081910ae8bfea3107",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# IN[0]: Liste (ggf. verschachtelt) von Revit-Element-Instanzen\r\nimport clr, math, sys\r\nclr.AddReference(\"RevitAPI\"); from Autodesk.Revit.DB import *\r\nclr.AddReference(\"RevitServices\"); from RevitServices.Persistence import DocumentManager\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nclr.AddReference(\"ProtoGeometry\"); from Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\n# optional: Dynamo-Wrapper\r\ntry:\r\n    clr.AddReference(\"RevitNodes\"); import Revit\r\nexcept:\r\n    pass\r\n\r\n# -------- helpers ----------\r\ndef flatten(x):\r\n    if isinstance(x, list):\r\n        out = []\r\n        for i in x:\r\n            out.extend(flatten(i))\r\n        return out\r\n    return [x]\r\n\r\ndef to_db(el):\r\n    # Dynamo Wrapper -> DB.Element\r\n    try:\r\n        ie = el.InternalElement\r\n        if isinstance(ie, Element): return ie\r\n    except: pass\r\n    try:\r\n        ue = UnwrapElement(el)\r\n        if isinstance(ue, Element): return ue\r\n    except: pass\r\n    if isinstance(el, Element): return el\r\n    return None\r\n\r\ndef pt_xyz(xyz):\r\n    return DSPt.ByCoordinates(xyz.X, xyz.Y, xyz.Z)\r\n\r\ndef midpoint(e):\r\n    # 1) FamilyInstance.Transform.Origin\r\n    if isinstance(e, FamilyInstance):\r\n        try:\r\n            tr = e.GetTransform()\r\n            if tr:\r\n                o = tr.Origin\r\n                if abs(o.X)+abs(o.Y)+abs(o.Z) > 1e-8:\r\n                    return pt_xyz(o)\r\n        except: pass\r\n    # 2) Location\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationPoint):\r\n            p = loc.Point\r\n            if abs(p.X)+abs(p.Y)+abs(p.Z) > 1e-8:\r\n                return pt_xyz(p)\r\n        elif isinstance(loc, LocationCurve):\r\n            mp = loc.Curve.Evaluate(0.5, True)\r\n            return pt_xyz(mp)\r\n    except: pass\r\n    # 3) BoundingBox (global)\r\n    try:\r\n        bb = e.get_BoundingBox(None)\r\n        if bb:\r\n            return DSPt.ByCoordinates((bb.Min.X+bb.Max.X)/2.0,\r\n                                      (bb.Min.Y+bb.Max.Y)/2.0,\r\n                                      (bb.Min.Z+bb.Max.Z)/2.0)\r\n    except: pass\r\n    # 4) Solids-Centroid (view-unabhängig)\r\n    try:\r\n        opts = Options(); opts.DetailLevel = ViewDetailLevel.Fine; opts.IncludeNonVisibleObjects = True\r\n        ge = e.get_Geometry(opts)\r\n        solids=[]\r\n        if ge:\r\n            for g in ge:\r\n                if isinstance(g, Solid) and g.Volume > 1e-9: solids.append(g)\r\n                elif isinstance(g, GeometryInstance):\r\n                    for gi in g.GetInstanceGeometry():\r\n                        if isinstance(gi, Solid) and gi.Volume > 1e-9: solids.append(gi)\r\n        if solids:\r\n            V=cx=cy=cz=0.0\r\n            for s in solids:\r\n                try:\r\n                    c = s.ComputeCentroid()\r\n                except:\r\n                    bb = s.GetBoundingBox()\r\n                    if not bb: continue\r\n                    c = XYZ((bb.Min.X+bb.Max.X)/2.0,(bb.Min.Y+bb.Max.Y)/2.0,(bb.Min.Z+bb.Max.Z)/2.0)\r\n                v = max(s.Volume,0.0)\r\n                if v<=0: continue\r\n                V+=v; cx+=c.X*v; cy+=c.Y*v; cz+=c.Z*v\r\n            if V>0:\r\n                return DSPt.ByCoordinates(cx/V, cy/V, cz/V)\r\n    except: pass\r\n    return DSPt.ByCoordinates(0,0,0)\r\n\r\ndef ang_deg(a):\r\n    d = math.degrees(a) % 360.0\r\n    if d < 0: d += 360.0\r\n    return d\r\n\r\ndef rotation_ypr_with_source(e):\r\n    \"\"\"Yaw (Z), Pitch (Y), Roll (X) in Grad + source string\"\"\"\r\n    yaw = pitch = roll = 0.0\r\n    src = []\r\n\r\n    tr = None\r\n    try:\r\n        if isinstance(e, FamilyInstance):\r\n            tr = e.GetTransform()\r\n    except:\r\n        tr = None\r\n\r\n    # Yaw-Kandidaten\r\n    yaw_candidates = []\r\n    # LP.Rotation (um Z, Radiant)\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationPoint):\r\n            yaw_lp = ang_deg(loc.Rotation)\r\n            yaw_candidates.append((\"LP.Rotation\", yaw_lp))\r\n    except:\r\n        pass\r\n    # Facing/Hand\r\n    try:\r\n        if isinstance(e, FamilyInstance):\r\n            fv = e.FacingOrientation\r\n            yaw_fv = ang_deg(math.atan2(fv.Y, fv.X))\r\n            yaw_candidates.append((\"FI.Facing\", yaw_fv))\r\n    except:\r\n        pass\r\n    try:\r\n        if isinstance(e, FamilyInstance):\r\n            hv = e.HandOrientation\r\n            yaw_hv = ang_deg(math.atan2(hv.Y, hv.X))\r\n            yaw_candidates.append((\"FI.Hand\", yaw_hv))\r\n    except:\r\n        pass\r\n    # Transform\r\n    try:\r\n        if tr:\r\n            yaw_tr = ang_deg(math.atan2(tr.BasisX.Y, tr.BasisX.X))\r\n            yaw_candidates.append((\"FI.Transform\", yaw_tr))\r\n    except:\r\n        pass\r\n    # Kurvenrichtung\r\n    try:\r\n        loc2 = e.Location\r\n        if isinstance(loc2, LocationCurve):\r\n            dv = loc2.Curve.ComputeDerivatives(0.5, True).BasisX\r\n            yaw_cv = ang_deg(math.atan2(dv.Y, dv.X))\r\n            yaw_candidates.append((\"Curve.Tangent\", yaw_cv))\r\n    except:\r\n        pass\r\n\r\n    if yaw_candidates:\r\n        order = {\"LP.Rotation\":0, \"FI.Facing\":1, \"FI.Hand\":2, \"FI.Transform\":3, \"Curve.Tangent\":4}\r\n        yaw_candidates.sort(key=lambda t: order.get(t[0], 99))\r\n        yaw = yaw_candidates[0][1]\r\n        src.append(yaw_candidates[0][0])\r\n    else:\r\n        src.append(\"Yaw:0\")\r\n\r\n    # Pitch: aus BasisZ (Transform) oder Kurventangente\r\n    try:\r\n        if tr:\r\n            bz = tr.BasisZ\r\n            bzZ = max(min(bz.Z, 1.0), -1.0)\r\n            # Neigung gg. Welt-Z\r\n            pitch = ang_deg(math.acos(bzZ))\r\n            src.append(\"Pitch:Tr.BasisZ\")\r\n        else:\r\n            if isinstance(e.Location, LocationCurve):\r\n                dv = e.Location.Curve.ComputeDerivatives(0.5, True).BasisX\r\n                horiz = math.sqrt(dv.X*dv.X + dv.Y*dv.Y)\r\n                pitch = ang_deg(math.atan2(-dv.Z, horiz))\r\n                src.append(\"Pitch:Tangent\")\r\n    except:\r\n        src.append(\"Pitch:0\")\r\n\r\n    # Roll: aus BasisX relativ zu BasisZ\r\n    try:\r\n        if tr:\r\n            bx = tr.BasisX; bz = tr.BasisZ\r\n            dot = bx.X*bz.X + bx.Y*bz.Y + bx.Z*bz.Z\r\n            projX = XYZ(bx.X - dot*bz.X, bx.Y - dot*bz.Y, bx.Z - dot*bz.Z)\r\n            m = math.sqrt(projX.X**2 + projX.Y**2 + projX.Z**2)\r\n            if m > 1e-9:\r\n                ux = XYZ(projX.X/m, projX.Y/m, projX.Z/m)\r\n                # Referenz: Welt-X auf Ebene ⟂ bz projiziert\r\n                dotWX = bz.X\r\n                ref = XYZ(1.0 - dotWX*bz.X, 0.0 - dotWX*bz.Y, 0.0 - dotWX*bz.Z)\r\n                mr = math.sqrt(ref.X**2 + ref.Y**2 + ref.Z**2)\r\n                if mr > 1e-9:\r\n                    ur = XYZ(ref.X/mr, ref.Y/mr, ref.Z/mr)\r\n                    dotu = max(min(ux.X*ur.X + ux.Y*ur.Y + ux.Z*ur.Z, 1.0), -1.0)\r\n                    ang = math.acos(dotu)\r\n                    cross = XYZ(ur.Y*ux.Z - ur.Z*ux.Y, ur.Z*ux.X - ur.X*ux.Z, ur.X*ux.Y - ur.Y*ux.X)\r\n                    sgn = cross.X*bz.X + cross.Y*bz.Y + cross.Z*bz.Z\r\n                    if sgn < 0: ang = -ang\r\n                    roll = ang_deg(ang)\r\n                    src.append(\"Roll:Tr.Bases\")\r\n                else:\r\n                    src.append(\"Roll:0ref\")\r\n            else:\r\n                src.append(\"Roll:0proj\")\r\n        else:\r\n            src.append(\"Roll:0\")\r\n    except:\r\n        src.append(\"Roll:0ex\")\r\n\r\n    return yaw, pitch, roll, \"+\".join(src)\r\n\r\ndef ifc_guid(e):\r\n    # IFC GUID oder Fallback UniqueId\r\n    try:\r\n        from Autodesk.Revit.DB import ExporterIFCUtils\r\n        g = ExporterIFCUtils.CreateGUID(e.Id)\r\n        if g: return g\r\n    except: pass\r\n    for pname in (\"IFC GUID\",\"IfcGUID\",\"IFCGUID\",\"IFCGlobalId\"):\r\n        try:\r\n            p = e.LookupParameter(pname)\r\n            if p and p.StorageType == StorageType.String:\r\n                v = p.AsString()\r\n                if v: return v\r\n        except: pass\r\n    try:\r\n        return e.UniqueId\r\n    except:\r\n        try:\r\n            return str(e.Id.IntegerValue)\r\n        except:\r\n            return \"UNKNOWN\"\r\n\r\n# -------- run ----------\r\nraw = flatten(IN[0])\r\ndb_elems = [to_db(x) for x in raw if x is not None and not isinstance(x, ElementType)]\r\n\r\nguids  = []\r\npoints = []\r\nyaws   = []\r\npitchs = []\r\nrolls  = []\r\nsources= []\r\n\r\nfor e in db_elems:\r\n    try:\r\n        guids.append(ifc_guid(e))\r\n        points.append(midpoint(e))\r\n        y, p, r, s = rotation_ypr_with_source(e)\r\n        yaws.append(y); pitchs.append(p); rolls.append(r); sources.append(s)\r\n    except Exception as ex:\r\n        # Element-spezifischer Fehler → nicht alles auf null reißen\r\n        guids.append(\"ERR\")\r\n        points.append(None)\r\n        yaws.append(0.0); pitchs.append(0.0); rolls.append(0.0)\r\n        sources.append(\"ERROR:\"+str(ex))\r\n\r\nOUT = [guids, points, yaws, pitchs, rolls, sources]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "dc34a29a281f4b89b85c36625c01dabd",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "05a9a6b215db4136bc8c26f5d8234ebb",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "22e0d5e761e24037880e018597e33d81",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# IN[0]: Liste (ggf. verschachtelt) von Revit-Element-Instanzen\r\nimport clr, math, sys\r\nclr.AddReference(\"RevitAPI\"); from Autodesk.Revit.DB import *\r\nclr.AddReference(\"RevitServices\"); from RevitServices.Persistence import DocumentManager\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nclr.AddReference(\"ProtoGeometry\"); from Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\n# optional: Dynamo-Wrapper\r\ntry:\r\n    clr.AddReference(\"RevitNodes\"); import Revit\r\nexcept:\r\n    pass\r\n\r\n# -------- helpers ----------\r\ndef flatten(x):\r\n    if isinstance(x, list):\r\n        out = []\r\n        for i in x:\r\n            out.extend(flatten(i))\r\n        return out\r\n    return [x]\r\n\r\ndef to_db(el):\r\n    # Dynamo Wrapper -> DB.Element\r\n    try:\r\n        ie = el.InternalElement\r\n        if isinstance(ie, Element): return ie\r\n    except: pass\r\n    try:\r\n        ue = UnwrapElement(el)\r\n        if isinstance(ue, Element): return ue\r\n    except: pass\r\n    if isinstance(el, Element): return el\r\n    return None\r\n\r\ndef pt_xyz(xyz):\r\n    return DSPt.ByCoordinates(xyz.X, xyz.Y, xyz.Z)\r\n\r\ndef midpoint(e):\r\n    # 1) FamilyInstance.Transform.Origin\r\n    if isinstance(e, FamilyInstance):\r\n        try:\r\n            tr = e.GetTransform()\r\n            if tr:\r\n                o = tr.Origin\r\n                if abs(o.X)+abs(o.Y)+abs(o.Z) > 1e-8:\r\n                    return pt_xyz(o)\r\n        except: pass\r\n    # 2) Location\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationPoint):\r\n            p = loc.Point\r\n            if abs(p.X)+abs(p.Y)+abs(p.Z) > 1e-8:\r\n                return pt_xyz(p)\r\n        elif isinstance(loc, LocationCurve):\r\n            mp = loc.Curve.Evaluate(0.5, True)\r\n            return pt_xyz(mp)\r\n    except: pass\r\n    # 3) BoundingBox (global)\r\n    try:\r\n        bb = e.get_BoundingBox(None)\r\n        if bb:\r\n            return DSPt.ByCoordinates((bb.Min.X+bb.Max.X)/2.0,\r\n                                      (bb.Min.Y+bb.Max.Y)/2.0,\r\n                                      (bb.Min.Z+bb.Max.Z)/2.0)\r\n    except: pass\r\n    # 4) Solids-Centroid (view-unabhängig)\r\n    try:\r\n        opts = Options(); opts.DetailLevel = ViewDetailLevel.Fine; opts.IncludeNonVisibleObjects = True\r\n        ge = e.get_Geometry(opts)\r\n        solids=[]\r\n        if ge:\r\n            for g in ge:\r\n                if isinstance(g, Solid) and g.Volume > 1e-9: solids.append(g)\r\n                elif isinstance(g, GeometryInstance):\r\n                    for gi in g.GetInstanceGeometry():\r\n                        if isinstance(gi, Solid) and gi.Volume > 1e-9: solids.append(gi)\r\n        if solids:\r\n            V=cx=cy=cz=0.0\r\n            for s in solids:\r\n                try:\r\n                    c = s.ComputeCentroid()\r\n                except:\r\n                    bb = s.GetBoundingBox()\r\n                    if not bb: continue\r\n                    c = XYZ((bb.Min.X+bb.Max.X)/2.0,(bb.Min.Y+bb.Max.Y)/2.0,(bb.Min.Z+bb.Max.Z)/2.0)\r\n                v = max(s.Volume,0.0)\r\n                if v<=0: continue\r\n                V+=v; cx+=c.X*v; cy+=c.Y*v; cz+=c.Z*v\r\n            if V>0:\r\n                return DSPt.ByCoordinates(cx/V, cy/V, cz/V)\r\n    except: pass\r\n    return DSPt.ByCoordinates(0,0,0)\r\n\r\ndef ang_deg(a):\r\n    d = math.degrees(a) % 360.0\r\n    if d < 0: d += 360.0\r\n    return d\r\n\r\ndef rotation_ypr_with_source(e):\r\n    \"\"\"Yaw (Z), Pitch (Y), Roll (X) in Grad + source string\"\"\"\r\n    yaw = pitch = roll = 0.0\r\n    src = []\r\n\r\n    tr = None\r\n    try:\r\n        if isinstance(e, FamilyInstance):\r\n            tr = e.GetTransform()\r\n    except:\r\n        tr = None\r\n\r\n    # Yaw-Kandidaten\r\n    yaw_candidates = []\r\n    # LP.Rotation (um Z, Radiant)\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationPoint):\r\n            yaw_lp = ang_deg(loc.Rotation)\r\n            yaw_candidates.append((\"LP.Rotation\", yaw_lp))\r\n    except:\r\n        pass\r\n    # Facing/Hand\r\n    try:\r\n        if isinstance(e, FamilyInstance):\r\n            fv = e.FacingOrientation\r\n            yaw_fv = ang_deg(math.atan2(fv.Y, fv.X))\r\n            yaw_candidates.append((\"FI.Facing\", yaw_fv))\r\n    except:\r\n        pass\r\n    try:\r\n        if isinstance(e, FamilyInstance):\r\n            hv = e.HandOrientation\r\n            yaw_hv = ang_deg(math.atan2(hv.Y, hv.X))\r\n            yaw_candidates.append((\"FI.Hand\", yaw_hv))\r\n    except:\r\n        pass\r\n    # Transform\r\n    try:\r\n        if tr:\r\n            yaw_tr = ang_deg(math.atan2(tr.BasisX.Y, tr.BasisX.X))\r\n            yaw_candidates.append((\"FI.Transform\", yaw_tr))\r\n    except:\r\n        pass\r\n    # Kurvenrichtung\r\n    try:\r\n        loc2 = e.Location\r\n        if isinstance(loc2, LocationCurve):\r\n            dv = loc2.Curve.ComputeDerivatives(0.5, True).BasisX\r\n            yaw_cv = ang_deg(math.atan2(dv.Y, dv.X))\r\n            yaw_candidates.append((\"Curve.Tangent\", yaw_cv))\r\n    except:\r\n        pass\r\n\r\n    if yaw_candidates:\r\n        order = {\"LP.Rotation\":0, \"FI.Facing\":1, \"FI.Hand\":2, \"FI.Transform\":3, \"Curve.Tangent\":4}\r\n        yaw_candidates.sort(key=lambda t: order.get(t[0], 99))\r\n        yaw = yaw_candidates[0][1]\r\n        src.append(yaw_candidates[0][0])\r\n    else:\r\n        src.append(\"Yaw:0\")\r\n\r\n    # Pitch: aus BasisZ (Transform) oder Kurventangente\r\n    try:\r\n        if tr:\r\n            bz = tr.BasisZ\r\n            bzZ = max(min(bz.Z, 1.0), -1.0)\r\n            # Neigung gg. Welt-Z\r\n            pitch = ang_deg(math.acos(bzZ))\r\n            src.append(\"Pitch:Tr.BasisZ\")\r\n        else:\r\n            if isinstance(e.Location, LocationCurve):\r\n                dv = e.Location.Curve.ComputeDerivatives(0.5, True).BasisX\r\n                horiz = math.sqrt(dv.X*dv.X + dv.Y*dv.Y)\r\n                pitch = ang_deg(math.atan2(-dv.Z, horiz))\r\n                src.append(\"Pitch:Tangent\")\r\n    except:\r\n        src.append(\"Pitch:0\")\r\n\r\n    # Roll: aus BasisX relativ zu BasisZ\r\n    try:\r\n        if tr:\r\n            bx = tr.BasisX; bz = tr.BasisZ\r\n            dot = bx.X*bz.X + bx.Y*bz.Y + bx.Z*bz.Z\r\n            projX = XYZ(bx.X - dot*bz.X, bx.Y - dot*bz.Y, bx.Z - dot*bz.Z)\r\n            m = math.sqrt(projX.X**2 + projX.Y**2 + projX.Z**2)\r\n            if m > 1e-9:\r\n                ux = XYZ(projX.X/m, projX.Y/m, projX.Z/m)\r\n                # Referenz: Welt-X auf Ebene ⟂ bz projiziert\r\n                dotWX = bz.X\r\n                ref = XYZ(1.0 - dotWX*bz.X, 0.0 - dotWX*bz.Y, 0.0 - dotWX*bz.Z)\r\n                mr = math.sqrt(ref.X**2 + ref.Y**2 + ref.Z**2)\r\n                if mr > 1e-9:\r\n                    ur = XYZ(ref.X/mr, ref.Y/mr, ref.Z/mr)\r\n                    dotu = max(min(ux.X*ur.X + ux.Y*ur.Y + ux.Z*ur.Z, 1.0), -1.0)\r\n                    ang = math.acos(dotu)\r\n                    cross = XYZ(ur.Y*ux.Z - ur.Z*ux.Y, ur.Z*ux.X - ur.X*ux.Z, ur.X*ux.Y - ur.Y*ux.X)\r\n                    sgn = cross.X*bz.X + cross.Y*bz.Y + cross.Z*bz.Z\r\n                    if sgn < 0: ang = -ang\r\n                    roll = ang_deg(ang)\r\n                    src.append(\"Roll:Tr.Bases\")\r\n                else:\r\n                    src.append(\"Roll:0ref\")\r\n            else:\r\n                src.append(\"Roll:0proj\")\r\n        else:\r\n            src.append(\"Roll:0\")\r\n    except:\r\n        src.append(\"Roll:0ex\")\r\n\r\n    return yaw, pitch, roll, \"+\".join(src)\r\n\r\ndef ifc_guid(e):\r\n    # IFC GUID oder Fallback UniqueId\r\n    try:\r\n        from Autodesk.Revit.DB import ExporterIFCUtils\r\n        g = ExporterIFCUtils.CreateGUID(e.Id)\r\n        if g: return g\r\n    except: pass\r\n    for pname in (\"IFC GUID\",\"IfcGUID\",\"IFCGUID\",\"IFCGlobalId\"):\r\n        try:\r\n            p = e.LookupParameter(pname)\r\n            if p and p.StorageType == StorageType.String:\r\n                v = p.AsString()\r\n                if v: return v\r\n        except: pass\r\n    try:\r\n        return e.UniqueId\r\n    except:\r\n        try:\r\n            return str(e.Id.IntegerValue)\r\n        except:\r\n            return \"UNKNOWN\"\r\n\r\n# -------- run ----------\r\nraw = flatten(IN[0])\r\ndb_elems = [to_db(x) for x in raw if x is not None and not isinstance(x, ElementType)]\r\n\r\nguids  = []\r\npoints = []\r\nyaws   = []\r\npitchs = []\r\nrolls  = []\r\nsources= []\r\n\r\nfor e in db_elems:\r\n    try:\r\n        guids.append(ifc_guid(e))\r\n        points.append(midpoint(e))\r\n        y, p, r, s = rotation_ypr_with_source(e)\r\n        yaws.append(y); pitchs.append(p); rolls.append(r); sources.append(s)\r\n    except Exception as ex:\r\n        # Element-spezifischer Fehler → nicht alles auf null reißen\r\n        guids.append(\"ERR\")\r\n        points.append(None)\r\n        yaws.append(0.0); pitchs.append(0.0); rolls.append(0.0)\r\n        sources.append(\"ERROR:\"+str(ex))\r\n\r\nOUT = [guids, points, yaws, pitchs, rolls, sources]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "485e7d07215f43adb5eba6e8c424b311",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "a1a9d3cc40bc413b9ead8bd1ffc62665",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b6d7d7eaeeb54091951c87a14b714cad",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "b662f4933f324a4cb07f5a1b0b8fc0b3",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "849743194ef749f3b7c6100908b9ba8b",
+          "Name": "Category",
+          "Description": "Die Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "56693773e6c24e44b304c1277718f1bd",
+          "Name": "Elements",
+          "Description": "Eine Elementklasse.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ruft alle Elemente der angegebenen Kategorie aus dem Modell ab."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 613,
+      "SelectedString": "OST_SpecialityEquipment",
+      "Id": "a6a608b179664ecf9b8d4f0cc6d31b76",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5907211ef43b44fe813766769c6d075d",
+          "Name": "Category",
+          "Description": "Die ausgewählte Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Alle integrierten Kategorien"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# IN[0]: Liste (ggf. verschachtelt) von Revit-Element-Instanzen (keine IDs/Types)\r\nimport clr, math\r\nclr.AddReference(\"RevitAPI\"); from Autodesk.Revit.DB import *\r\nclr.AddReference(\"RevitServices\"); from RevitServices.Persistence import DocumentManager\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nclr.AddReference(\"ProtoGeometry\"); from Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\n# Optional: Dynamo-Wrapper laden\r\ntry:\r\n    clr.AddReference(\"RevitNodes\"); import Revit\r\nexcept:\r\n    pass\r\n\r\n# ---------- Utilities ----------\r\ndef flatten(x):\r\n    if isinstance(x, list):\r\n        r=[]; [r.extend(flatten(i)) for i in x]; return r\r\n    return [x]\r\n\r\ndef to_db(el):\r\n    # Dynamo-Wrapper -> DB.Element\r\n    try:\r\n        ie = el.InternalElement\r\n        if isinstance(ie, Element): return ie\r\n    except: pass\r\n    try:\r\n        ue = UnwrapElement(el)\r\n        if isinstance(ue, Element): return ue\r\n    except: pass\r\n    return el if isinstance(el, Element) else None\r\n\r\ndef dpt_xyz(xyz): return DSPt.ByCoordinates(xyz.X, xyz.Y, xyz.Z)\r\n\r\ndef midpoint(e):\r\n    # 1) FamilyInstance: Transform-Origin (zuverlässig, Welt-KOS)\r\n    if isinstance(e, FamilyInstance):\r\n        try:\r\n            tr = e.GetTransform()\r\n            if tr:\r\n                o = tr.Origin\r\n                if abs(o.X)+abs(o.Y)+abs(o.Z) > 1e-8:\r\n                    return dpt_xyz(o)\r\n        except: pass\r\n    # 2) Location\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationPoint):\r\n            p = loc.Point\r\n            if abs(p.X)+abs(p.Y)+abs(p.Z) > 1e-8:\r\n                return dpt_xyz(p)\r\n        elif isinstance(loc, LocationCurve):\r\n            mp = loc.Curve.Evaluate(0.5, True)\r\n            return dpt_xyz(mp)\r\n    except: pass\r\n    # 3) BoundingBox (global)\r\n    try:\r\n        bb = e.get_BoundingBox(None)\r\n        if bb:\r\n            return DSPt.ByCoordinates((bb.Min.X+bb.Max.X)/2.0,\r\n                                      (bb.Min.Y+bb.Max.Y)/2.0,\r\n                                      (bb.Min.Z+bb.Max.Z)/2.0)\r\n    except: pass\r\n    # 4) Solids-Centroid (view-unabhängig)\r\n    try:\r\n        opts = Options(); opts.DetailLevel = ViewDetailLevel.Fine; opts.IncludeNonVisibleObjects = True\r\n        ge = e.get_Geometry(opts)\r\n        solids=[]\r\n        if ge:\r\n            for g in ge:\r\n                if isinstance(g, Solid) and g.Volume > 1e-9: solids.append(g)\r\n                elif isinstance(g, GeometryInstance):\r\n                    for gi in g.GetInstanceGeometry():\r\n                        if isinstance(gi, Solid) and gi.Volume > 1e-9: solids.append(gi)\r\n        if solids:\r\n            V=cx=cy=cz=0.0\r\n            for s in solids:\r\n                try:\r\n                    c = s.ComputeCentroid()\r\n                except:\r\n                    bb = s.GetBoundingBox()\r\n                    if not bb: continue\r\n                    c = XYZ((bb.Min.X+bb.Max.X)/2.0,(bb.Min.Y+bb.Max.Y)/2.0,(bb.Min.Z+bb.Max.Z)/2.0)\r\n                v = max(s.Volume,0.0)\r\n                if v<=0: continue\r\n                V+=v; cx+=c.X*v; cy+=c.Y*v; cz+=c.Z*v\r\n            if V>0:\r\n                return DSPt.ByCoordinates(cx/V, cy/V, cz/V)\r\n    except: pass\r\n    return DSPt.ByCoordinates(0,0,0)\r\n\r\ndef _norm(v):\r\n    m = math.sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)\r\n    if m < 1e-12: return None\r\n    return XYZ(v.X/m, v.Y/m, v.Z/m)\r\n\r\ndef _euler_zyx_from_bases(bx, by, bz):\r\n    # R = [bx by bz] (Basen in Welt), Euler Z-Y-X → (YawZ, PitchY, RollX) in Grad\r\n    r11, r21, r31 = bx.X, bx.Y, bx.Z\r\n    r12, r22, r32 = by.X, by.Y, by.Z\r\n    r13, r23, r33 = bz.X, bz.Y, bz.Z\r\n    r31 = max(min(r31, 1.0), -1.0)\r\n    pitch = math.asin(-r31)\r\n    cp = math.cos(pitch)\r\n    if abs(cp) > 1e-10:\r\n        roll  = math.atan2(r32, r33)\r\n        yaw   = math.atan2(r21, r11)\r\n    else:\r\n        roll  = 0.0\r\n        yaw   = math.atan2(-r12, r22)\r\n    def deg(a):\r\n        d = math.degrees(a) % 360.0\r\n        if d < 0: d += 360.0\r\n        return d\r\n    return deg(yaw), deg(pitch), deg(roll)\r\n\r\ndef rotation_ypr_with_source(e):\r\n    \"\"\"\r\n    Rotation relativ zum Welt-KOS:\r\n    1) Wenn Transform vorhanden: Basen → Euler Z-Y-X (Yaw/Pitch/Roll)\r\n    2) Sonst bei LocationCurve: Tangente + stabile Up-Achse → Basen → Euler\r\n    3) Sonst 0/0/0\r\n    \"\"\"\r\n    # 1) Transform (z. B. FamilyInstance, einige Systeminstanzen)\r\n    try:\r\n        # FamilyInstance sicher, aber manche andere Elemente haben auch GetTransform()\r\n        tr = e.GetTransform() if hasattr(e, \"GetTransform\") else None\r\n        if tr:\r\n            bx = _norm(tr.BasisX); by = _norm(tr.BasisY); bz = _norm(tr.BasisZ)\r\n            if bx and by and bz:\r\n                y,p,r = _euler_zyx_from_bases(bx, by, bz)\r\n                return y,p,r,\"Transform\"\r\n    except:\r\n        pass\r\n\r\n    # 2) Kurvenbasierte Elemente (Rohre/Kanäle/Dämmung etc.)\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationCurve):\r\n            t = _norm(loc.Curve.ComputeDerivatives(0.5, True).BasisX)  # lokale X\r\n            if t:\r\n                up = XYZ.BasisZ\r\n                # Falls Tangente ≈ parallel zu Z, auf Y ausweichen, um Gimbal-lock zu vermeiden\r\n                cross = XYZ(t.Y*up.Z - t.Z*up.Y, t.Z*up.X - t.X*up.Z, t.X*up.Y - t.Y*up.X)\r\n                if _norm(cross) is None or (abs(cross.X)+abs(cross.Y)+abs(cross.Z)) < 1e-6:\r\n                    up = XYZ.BasisY\r\n                    cross = XYZ(t.Y*up.Z - t.Z*up.Y, t.Z*up.X - t.X*up.Z, t.X*up.Y - t.Y*up.X)\r\n                bz = _norm(cross)                                     # lokale Z = t × up\r\n                by = _norm(XYZ(bz.Y*t.Z - bz.Z*t.Y, bz.Z*t.X - bz.X*t.Z, bz.X*t.Y - bz.Y*t.X))  # by = bz × t\r\n                bx = t                                                # lokale X = Tangente\r\n                if bx and by and bz:\r\n                    y,p,r = _euler_zyx_from_bases(bx, by, bz)\r\n                    return y,p,r,\"Curve\"\r\n    except:\r\n        pass\r\n\r\n    # 3) Fallback\r\n    return 0.0, 0.0, 0.0, \"Fallback\"\r\n\r\ndef ifc_guid(e):\r\n    # IFC GUID, sonst UniqueId\r\n    try:\r\n        from Autodesk.Revit.DB import ExporterIFCUtils\r\n        g = ExporterIFCUtils.CreateGUID(e.Id)\r\n        if g: return g\r\n    except: pass\r\n    for pname in (\"IFC GUID\",\"IfcGUID\",\"IFCGUID\",\"IFCGlobalId\"):\r\n        try:\r\n            p = e.LookupParameter(pname)\r\n            if p and p.StorageType == StorageType.String:\r\n                v = p.AsString()\r\n                if v: return v\r\n        except: pass\r\n    try: return e.UniqueId\r\n    except: return str(e.Id.IntegerValue)\r\n\r\n# ---------- Run ----------\r\nraw = flatten(IN[0])\r\ndb_elems = [to_db(x) for x in raw if x is not None and not isinstance(x, ElementType)]\r\n\r\nguids, points, yaws, pitchs, rolls, sources = [], [], [], [], [], []\r\nfor e in db_elems:\r\n    guids.append(ifc_guid(e))\r\n    points.append(midpoint(e))\r\n    y,p,r,src = rotation_ypr_with_source(e)\r\n    yaws.append(y); pitchs.append(p); rolls.append(r); sources.append(src)\r\n\r\nOUT = [guids, points, yaws, pitchs, rolls, sources]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "9d5f02541a0845f3a49e07ab80c47957",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "82928e413ac947188632deec8c34fa10",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bf5a0be1f86f4ed5aa8df8e6cea6fd1e",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "7281eeb58f2940d5a44484f5f4714d74",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "c86a300c6e0f4f778147ea892ad5a5db",
+          "Name": "Category",
+          "Description": "Die Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d6c360ea9fb34c46b4da97e9162c3344",
+          "Name": "Elements",
+          "Description": "Eine Elementklasse.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ruft alle Elemente der angegebenen Kategorie aus dem Modell ab."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 552,
+      "SelectedString": "OST_PipeCurves",
+      "Id": "e250b2cd80f1441d8db97acc757ce2b0",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3dc39ce897de439e92c79e505199cf9b",
+          "Name": "Category",
+          "Description": "Die ausgewählte Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Alle integrierten Kategorien"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# IN[0]: Liste (ggf. verschachtelt) von Revit-Element-Instanzen (keine IDs/Types)\r\nimport clr, math\r\nclr.AddReference(\"RevitAPI\"); from Autodesk.Revit.DB import *\r\nclr.AddReference(\"RevitServices\"); from RevitServices.Persistence import DocumentManager\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nclr.AddReference(\"ProtoGeometry\"); from Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\n# Optional: Dynamo-Wrapper laden\r\ntry:\r\n    clr.AddReference(\"RevitNodes\"); import Revit\r\nexcept:\r\n    pass\r\n\r\n# ---------- Utilities ----------\r\ndef flatten(x):\r\n    if isinstance(x, list):\r\n        r=[]; [r.extend(flatten(i)) for i in x]; return r\r\n    return [x]\r\n\r\ndef to_db(el):\r\n    # Dynamo-Wrapper -> DB.Element\r\n    try:\r\n        ie = el.InternalElement\r\n        if isinstance(ie, Element): return ie\r\n    except: pass\r\n    try:\r\n        ue = UnwrapElement(el)\r\n        if isinstance(ue, Element): return ue\r\n    except: pass\r\n    return el if isinstance(el, Element) else None\r\n\r\ndef dpt_xyz(xyz): return DSPt.ByCoordinates(xyz.X, xyz.Y, xyz.Z)\r\n\r\ndef midpoint(e):\r\n    # 1) FamilyInstance: Transform-Origin (zuverlässig, Welt-KOS)\r\n    if isinstance(e, FamilyInstance):\r\n        try:\r\n            tr = e.GetTransform()\r\n            if tr:\r\n                o = tr.Origin\r\n                if abs(o.X)+abs(o.Y)+abs(o.Z) > 1e-8:\r\n                    return dpt_xyz(o)\r\n        except: pass\r\n    # 2) Location\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationPoint):\r\n            p = loc.Point\r\n            if abs(p.X)+abs(p.Y)+abs(p.Z) > 1e-8:\r\n                return dpt_xyz(p)\r\n        elif isinstance(loc, LocationCurve):\r\n            mp = loc.Curve.Evaluate(0.5, True)\r\n            return dpt_xyz(mp)\r\n    except: pass\r\n    # 3) BoundingBox (global)\r\n    try:\r\n        bb = e.get_BoundingBox(None)\r\n        if bb:\r\n            return DSPt.ByCoordinates((bb.Min.X+bb.Max.X)/2.0,\r\n                                      (bb.Min.Y+bb.Max.Y)/2.0,\r\n                                      (bb.Min.Z+bb.Max.Z)/2.0)\r\n    except: pass\r\n    # 4) Solids-Centroid (view-unabhängig)\r\n    try:\r\n        opts = Options(); opts.DetailLevel = ViewDetailLevel.Fine; opts.IncludeNonVisibleObjects = True\r\n        ge = e.get_Geometry(opts)\r\n        solids=[]\r\n        if ge:\r\n            for g in ge:\r\n                if isinstance(g, Solid) and g.Volume > 1e-9: solids.append(g)\r\n                elif isinstance(g, GeometryInstance):\r\n                    for gi in g.GetInstanceGeometry():\r\n                        if isinstance(gi, Solid) and gi.Volume > 1e-9: solids.append(gi)\r\n        if solids:\r\n            V=cx=cy=cz=0.0\r\n            for s in solids:\r\n                try:\r\n                    c = s.ComputeCentroid()\r\n                except:\r\n                    bb = s.GetBoundingBox()\r\n                    if not bb: continue\r\n                    c = XYZ((bb.Min.X+bb.Max.X)/2.0,(bb.Min.Y+bb.Max.Y)/2.0,(bb.Min.Z+bb.Max.Z)/2.0)\r\n                v = max(s.Volume,0.0)\r\n                if v<=0: continue\r\n                V+=v; cx+=c.X*v; cy+=c.Y*v; cz+=c.Z*v\r\n            if V>0:\r\n                return DSPt.ByCoordinates(cx/V, cy/V, cz/V)\r\n    except: pass\r\n    return DSPt.ByCoordinates(0,0,0)\r\n\r\ndef _norm(v):\r\n    m = math.sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)\r\n    if m < 1e-12: return None\r\n    return XYZ(v.X/m, v.Y/m, v.Z/m)\r\n\r\ndef _euler_zyx_from_bases(bx, by, bz):\r\n    # R = [bx by bz] (Basen in Welt), Euler Z-Y-X → (YawZ, PitchY, RollX) in Grad\r\n    r11, r21, r31 = bx.X, bx.Y, bx.Z\r\n    r12, r22, r32 = by.X, by.Y, by.Z\r\n    r13, r23, r33 = bz.X, bz.Y, bz.Z\r\n    r31 = max(min(r31, 1.0), -1.0)\r\n    pitch = math.asin(-r31)\r\n    cp = math.cos(pitch)\r\n    if abs(cp) > 1e-10:\r\n        roll  = math.atan2(r32, r33)\r\n        yaw   = math.atan2(r21, r11)\r\n    else:\r\n        roll  = 0.0\r\n        yaw   = math.atan2(-r12, r22)\r\n    def deg(a):\r\n        d = math.degrees(a) % 360.0\r\n        if d < 0: d += 360.0\r\n        return d\r\n    return deg(yaw), deg(pitch), deg(roll)\r\n\r\ndef rotation_ypr_with_source(e):\r\n    \"\"\"\r\n    Rotation relativ zum Welt-KOS:\r\n    1) Wenn Transform vorhanden: Basen → Euler Z-Y-X (Yaw/Pitch/Roll)\r\n    2) Sonst bei LocationCurve: Tangente + stabile Up-Achse → Basen → Euler\r\n    3) Sonst 0/0/0\r\n    \"\"\"\r\n    # 1) Transform (z. B. FamilyInstance, einige Systeminstanzen)\r\n    try:\r\n        # FamilyInstance sicher, aber manche andere Elemente haben auch GetTransform()\r\n        tr = e.GetTransform() if hasattr(e, \"GetTransform\") else None\r\n        if tr:\r\n            bx = _norm(tr.BasisX); by = _norm(tr.BasisY); bz = _norm(tr.BasisZ)\r\n            if bx and by and bz:\r\n                y,p,r = _euler_zyx_from_bases(bx, by, bz)\r\n                return y,p,r,\"Transform\"\r\n    except:\r\n        pass\r\n\r\n    # 2) Kurvenbasierte Elemente (Rohre/Kanäle/Dämmung etc.)\r\n    try:\r\n        loc = e.Location\r\n        if isinstance(loc, LocationCurve):\r\n            t = _norm(loc.Curve.ComputeDerivatives(0.5, True).BasisX)  # lokale X\r\n            if t:\r\n                up = XYZ.BasisZ\r\n                # Falls Tangente ≈ parallel zu Z, auf Y ausweichen, um Gimbal-lock zu vermeiden\r\n                cross = XYZ(t.Y*up.Z - t.Z*up.Y, t.Z*up.X - t.X*up.Z, t.X*up.Y - t.Y*up.X)\r\n                if _norm(cross) is None or (abs(cross.X)+abs(cross.Y)+abs(cross.Z)) < 1e-6:\r\n                    up = XYZ.BasisY\r\n                    cross = XYZ(t.Y*up.Z - t.Z*up.Y, t.Z*up.X - t.X*up.Z, t.X*up.Y - t.Y*up.X)\r\n                bz = _norm(cross)                                     # lokale Z = t × up\r\n                by = _norm(XYZ(bz.Y*t.Z - bz.Z*t.Y, bz.Z*t.X - bz.X*t.Z, bz.X*t.Y - bz.Y*t.X))  # by = bz × t\r\n                bx = t                                                # lokale X = Tangente\r\n                if bx and by and bz:\r\n                    y,p,r = _euler_zyx_from_bases(bx, by, bz)\r\n                    return y,p,r,\"Curve\"\r\n    except:\r\n        pass\r\n\r\n    # 3) Fallback\r\n    return 0.0, 0.0, 0.0, \"Fallback\"\r\n\r\ndef ifc_guid(e):\r\n    # IFC GUID, sonst UniqueId\r\n    try:\r\n        from Autodesk.Revit.DB import ExporterIFCUtils\r\n        g = ExporterIFCUtils.CreateGUID(e.Id)\r\n        if g: return g\r\n    except: pass\r\n    for pname in (\"IFC GUID\",\"IfcGUID\",\"IFCGUID\",\"IFCGlobalId\"):\r\n        try:\r\n            p = e.LookupParameter(pname)\r\n            if p and p.StorageType == StorageType.String:\r\n                v = p.AsString()\r\n                if v: return v\r\n        except: pass\r\n    try: return e.UniqueId\r\n    except: return str(e.Id.IntegerValue)\r\n\r\n# ---------- Run ----------\r\nraw = flatten(IN[0])\r\ndb_elems = [to_db(x) for x in raw if x is not None and not isinstance(x, ElementType)]\r\n\r\nguids, points, yaws, pitchs, rolls, sources = [], [], [], [], [], []\r\nfor e in db_elems:\r\n    guids.append(ifc_guid(e))\r\n    points.append(midpoint(e))\r\n    y,p,r,src = rotation_ypr_with_source(e)\r\n    yaws.append(y); pitchs.append(p); rolls.append(r); sources.append(src)\r\n\r\nOUT = [guids, points, yaws, pitchs, rolls, sources]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "ea12c052114c4f1c94330ceaf37b6030",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "e20408d92a6f476c8ca3c0439f535e98",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "01bbc9fe5cbf490183d67640ac304089",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "Id": "d9190df2cca74cb8bfbd2b2af8d43890",
+      "NodeType": "ExtensionNode",
+      "Inputs": [
+        {
+          "Id": "a42af85beffa46548086ea0776df47f4",
+          "Name": "Category",
+          "Description": "Die Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "84da44ddd1d248ac803d348126f5e82e",
+          "Name": "Elements",
+          "Description": "Eine Elementklasse.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Ruft alle Elemente der angegebenen Kategorie aus dem Modell ab."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.Categories, DSRevitNodesUI",
+      "SelectedIndex": 565,
+      "SelectedString": "OST_PipeAccessory",
+      "Id": "8cb1b4dcbd234db9a8f8fef25f4c9164",
+      "NodeType": "ExtensionNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a401dab0f8864d4abc24e569dc932792",
+          "Name": "Category",
+          "Description": "Die ausgewählte Kategorie",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Alle integrierten Kategorien"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# IN[0]..IN[4]: je Kategorie ein Paket [guids, points, yaw, pitch, roll, (sources optional)]\r\n# OUT: eine Liste von Einträgen: [IFCGuid, Point, [Yaw,Pitch,Roll], Montagenummer, Kategorie]\r\n\r\nimport clr\r\nclr.AddReference(\"ProtoGeometry\")\r\nfrom Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\ndef is_point(x):\r\n    try: return isinstance(x, DSPt)\r\n    except: return False\r\n\r\ndef get_pack(inp):\r\n    if not isinstance(inp, list) or len(inp) < 2:\r\n        return [], [], [], [], [], []\r\n    guids  = inp[0] if len(inp) > 0 else []\r\n    points = inp[1] if len(inp) > 1 else []\r\n    yaws   = inp[2] if len(inp) > 2 else []\r\n    pitchs = inp[3] if len(inp) > 3 else []\r\n    rolls  = inp[4] if len(inp) > 4 else []\r\n    srcs   = inp[5] if len(inp) > 5 else []\r\n    n = min(len(guids), len(points),\r\n            len(yaws) if yaws else len(points),\r\n            len(pitchs) if pitchs else len(points),\r\n            len(rolls) if rolls else len(points))\r\n    if not yaws:   yaws   = [0.0]*n\r\n    if not pitchs: pitchs = [0.0]*n\r\n    if not rolls:  rolls  = [0.0]*n\r\n    if not srcs:   srcs   = [\"\"]*n\r\n    return guids[:n], points[:n], yaws[:n], pitchs[:n], rolls[:n], srcs[:n]\r\n\r\n# Feste Eingangsreihenfolge\r\npacks = [IN[0] if len(IN)>0 else None,\r\n         IN[1] if len(IN)>1 else None,\r\n         IN[2] if len(IN)>2 else None,\r\n         IN[3] if len(IN)>3 else None,\r\n         IN[4] if len(IN)>4 else None]\r\n\r\n# Anzeigename je Eingang (➡️ hier bei Bedarf an dein Projekt anpassen)\r\ncat_label = {\r\n    0: \"Allgemeines Modell\",\r\n    1: \"Sonderausstattung\",\r\n    2: \"Rohrformteile\",\r\n    3: \"Rohre\",\r\n    4: \"Rohrzubehör\"\r\n}\r\n\r\n# Priorität: Sonderausstattung zuerst, dann 0,2,3,4\r\ncat_priority = {1:0, 0:1, 2:2, 3:3, 4:4}\r\n\r\nrecords = []\r\nfor ci, pk in enumerate(packs):\r\n    if pk is None: continue\r\n    guids, pts, yaws, pitchs, rolls, srcs = get_pack(pk)\r\n    label = cat_label.get(ci, \"\")\r\n    for i in range(len(guids)):\r\n        p = pts[i]\r\n        z = p.Z if is_point(p) and (p.Z is not None) else float('inf')\r\n        records.append({\r\n            \"prio\": cat_priority.get(ci, 99),\r\n            \"z\": z,\r\n            \"cat\": ci,\r\n            \"i\": i,\r\n            \"label\": label,\r\n            \"guid\": guids[i],\r\n            \"pt\": p,\r\n            \"y\": float(yaws[i]),\r\n            \"p\": float(pitchs[i]),\r\n            \"r\": float(rolls[i])\r\n        })\r\n\r\n# Sortierung: Kategorie-Priorität → Z → stabil\r\nrecords.sort(key=lambda r: (r[\"prio\"], r[\"z\"], r[\"cat\"], r[\"i\"]))\r\n\r\n# Montagenummern & Zieldaten: jetzt MIT Kategorie als 5. Feld\r\nout_list = []\r\nfor idx, r in enumerate(records, start=1):\r\n    out_list.append([ r[\"guid\"], r[\"pt\"], [r[\"y\"], r[\"p\"], r[\"r\"]], idx, r[\"label\"] ])\r\n\r\nOUT = out_list\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "00cf0b32e00a49f1820371b3eb38efd2",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "e8f515d2b52b41bcbc427ec26f511307",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a54c2ce184e1439b90767d8e28274127",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8c35193699ef467785370aedd1890745",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1997da832d8c41fba061ff117d131f73",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ad89bbcf25e4429da1cf78765008b3ac",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "32d2278e9f57411484533c82d470e1f6",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "Code": "# IN[0]: [[guid, Point, [yaw,pitch,roll], montage_idx] ...]  (optional 5. Feld: category)\r\n# IN[1]: optional: Ausgabepfad, z.B. r\"C:\\Temp\\montage.json\"\r\n# IN[2]: optional: indent (int), Default 2\r\n# IN[3]: optional: categories list (len == len(IN[0])) falls nicht als 5. Feld vorhanden\r\n\r\nimport clr, json, os\r\n\r\n# Revit/Dynamo\r\nclr.AddReference(\"ProtoGeometry\")\r\nfrom Autodesk.DesignScript.Geometry import Point as DSPt\r\n\r\n# Popup\r\ntry:\r\n    clr.AddReference(\"RevitAPIUI\")\r\n    from Autodesk.Revit.UI import TaskDialog\r\n    _use_taskdialog = True\r\nexcept:\r\n    _use_taskdialog = False\r\ntry:\r\n    import System\r\n    from System.Windows.Forms import MessageBox\r\n    _use_winforms = True\r\nexcept:\r\n    _use_winforms = False\r\n\r\ndef _popup(msg, title=\"Export\"):\r\n    try:\r\n        if _use_taskdialog:\r\n            TaskDialog.Show(title, msg)\r\n            return\r\n    except:\r\n        pass\r\n    try:\r\n        if _use_winforms:\r\n            MessageBox.Show(msg, title)\r\n            return\r\n    except:\r\n        pass\r\n    # Fallback: nichts\r\n\r\ndef _is_point(p):\r\n    try: return isinstance(p, DSPt)\r\n    except: return False\r\n\r\ndef _to_float(x, nd=6):\r\n    try: return round(float(x), nd)\r\n    except: return None\r\n\r\nrows = IN[0] if isinstance(IN[0], list) else []\r\nout_path = IN[1] if (len(IN) > 1 and isinstance(IN[1], (str,))) else None\r\nindent = IN[2] if (len(IN) > 2 and isinstance(IN[2], int)) else 2\r\ncat_list = IN[3] if (len(IN) > 3 and isinstance(IN[3], list)) else None\r\n\r\nitems = []\r\nfor i, row in enumerate(rows):\r\n    if not isinstance(row, list) or len(row) < 4:\r\n        continue\r\n    guid = row[0]\r\n    pt   = row[1]\r\n    rot  = row[2] if (isinstance(row[2], list) and len(row[2]) >= 3) else [0.0, 0.0, 0.0]\r\n    idx  = row[3]\r\n    # Kategorie: erst 5. Feld, sonst IN[3], sonst \"\"\r\n    if len(row) >= 5 and isinstance(row[4], (str,)):\r\n        category = row[4]\r\n    elif cat_list and i < len(cat_list):\r\n        category = cat_list[i]\r\n    else:\r\n        category = \"\"\r\n\r\n    x = _to_float(pt.X) if _is_point(pt) else None\r\n    y = _to_float(pt.Y) if _is_point(pt) else None\r\n    z = _to_float(pt.Z) if _is_point(pt) else None\r\n\r\n    yaw   = _to_float(rot[0]); pitch = _to_float(rot[1]); roll = _to_float(rot[2])\r\n\r\n    items.append({\r\n        \"guid\": guid if guid is not None else \"\",\r\n        \"category\": category,\r\n        \"point\": {\"x\": x, \"y\": y, \"z\": z},\r\n        \"rotation\": {\"yaw\": yaw, \"pitch\": pitch, \"roll\": roll},\r\n        \"montage_index\": int(idx) if isinstance(idx, (int, float)) else None\r\n    })\r\n\r\npayload = {\"meta\": {\"count\": len(items)}, \"items\": items}\r\njson_text = json.dumps(payload, ensure_ascii=False, indent=indent, separators=(\",\", \": \"))\r\n\r\nwritten_path = None\r\nif out_path:\r\n    try:\r\n        folder = os.path.dirname(out_path)\r\n        if folder and not os.path.exists(folder):\r\n            os.makedirs(folder)\r\n        # Python 3: explizites UTF-8\r\n        with open(out_path, \"w\", encoding=\"utf-8\") as f:\r\n            f.write(json_text)\r\n        written_path = out_path\r\n        _popup(\"Export erfolgreich:\\n{}\".format(out_path), \"Montage-JSON\")\r\n    except Exception as ex:\r\n        _popup(\"Export fehlgeschlagen:\\n{}\".format(str(ex)), \"Montage-JSON\")\r\n        # bei Fehler trotzdem Text zurückgeben\r\n\r\nOUT = [json_text, written_path]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "6976ebf288f4488aa0745701fdde3a7b",
+      "NodeType": "PythonScriptNode",
+      "Inputs": [
+        {
+          "Id": "b75f4ec4851c4194a1138b282f8bc993",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f36152bca71b4b17a476c951fd790bac",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3bb45455b7b1414ca2b1275704d07ec3",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "29194bcd75a549068e24abddbf9c91b2",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Führt ein eingebettetes Python-Skript aus."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "SerializedWidth": 598.3484115548462,
+      "SerializedHeight": 54.24608103549948,
+      "Id": "1eaddc8ec6224533aa9cdfa2bef62f97",
+      "NodeType": "StringInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b9c3caecd9ae444fa5a3270420bd1b31",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Erstellt eine Zeichenfolge.",
+      "InputValue": "C:\\Users\\GussenMa\\OneDrive - Viega GmbH & Co. KG\\Projekte\\FutureLab\\Aufgaben\\Montageplanung\\Dynamo\\Sequencing.json"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NumberType": "Double",
+      "Id": "69759397c79544bfa59d6f461762c183",
+      "NodeType": "NumberInputNode",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "588908640fa34141851bb8770ec720a1",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Erstellt eine Zahl.",
+      "InputValue": 4.0
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "e0ca1f1efa2b4be6bebdccdcac0efd42",
+      "End": "7fcbd3f12bcb41ebad74b4f2dc275b1f",
+      "Id": "cc79f31203234d90a649e7842101b8a1",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "50e9c97ba63049acb73ba347f438fe54",
+      "End": "82c11308dcc4495c8341f2669b787888",
+      "Id": "05e40c6ea499426a80b22f9054cfb879",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "7e3304447f3641a1ab18b504a89e718d",
+      "End": "05a9a6b215db4136bc8c26f5d8234ebb",
+      "Id": "6007428689264530a3d9444e3aa69076",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "9fbcb99f437f44f1ad1ea0ce9ca9b962",
+      "End": "80181fd686224e5b81216592e1aadefa",
+      "Id": "3c859d8ca2d545b79e1a83a31fd47f50",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "9b8546a878884a2081910ae8bfea3107",
+      "End": "e8f515d2b52b41bcbc427ec26f511307",
+      "Id": "741cd469dd4b415fa7e10cac7b7c97db",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "22e0d5e761e24037880e018597e33d81",
+      "End": "8c35193699ef467785370aedd1890745",
+      "Id": "c9e0d4f5569045bc84599de1d7ac1806",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b6d7d7eaeeb54091951c87a14b714cad",
+      "End": "a54c2ce184e1439b90767d8e28274127",
+      "Id": "99fe567b9e534fa7adc001f881e307ac",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "56693773e6c24e44b304c1277718f1bd",
+      "End": "a1a9d3cc40bc413b9ead8bd1ffc62665",
+      "Id": "973d83a2ab0b4669bc87c04313dc59b9",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "5907211ef43b44fe813766769c6d075d",
+      "End": "849743194ef749f3b7c6100908b9ba8b",
+      "Id": "9360ce39b534479e929a19be25fb8ccd",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "bf5a0be1f86f4ed5aa8df8e6cea6fd1e",
+      "End": "1997da832d8c41fba061ff117d131f73",
+      "Id": "9d426be611b840feb0a2bf26169521cf",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "d6c360ea9fb34c46b4da97e9162c3344",
+      "End": "82928e413ac947188632deec8c34fa10",
+      "Id": "ae84db41e8364df8b73a397c8b0de5b7",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "3dc39ce897de439e92c79e505199cf9b",
+      "End": "c86a300c6e0f4f778147ea892ad5a5db",
+      "Id": "861e1aed9bf2417c9ac2269b145430da",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "01bbc9fe5cbf490183d67640ac304089",
+      "End": "ad89bbcf25e4429da1cf78765008b3ac",
+      "Id": "fbcea7d1a34542a98fbee43b6028fab3",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "84da44ddd1d248ac803d348126f5e82e",
+      "End": "e20408d92a6f476c8ca3c0439f535e98",
+      "Id": "8f3989bf7d444ac38c22a4cb7c1ba35c",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "a401dab0f8864d4abc24e569dc932792",
+      "End": "a42af85beffa46548086ea0776df47f4",
+      "Id": "896e3ce8da7c41659d427689fa6f68a6",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "32d2278e9f57411484533c82d470e1f6",
+      "End": "b75f4ec4851c4194a1138b282f8bc993",
+      "Id": "8b221946165346699e839b2875ea6bc0",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "b9c3caecd9ae444fa5a3270420bd1b31",
+      "End": "f36152bca71b4b17a476c951fd790bac",
+      "Id": "ccb958176f054fc7a5b4dd06976b11cb",
+      "IsHidden": "False"
+    },
+    {
+      "Start": "588908640fa34141851bb8770ec720a1",
+      "End": "3bb45455b7b1414ca2b1275704d07ec3",
+      "Id": "51c65ed6fcd44c67ae71dad5f540b82b",
+      "IsHidden": "False"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [
+    {
+      "Name": "Sequencing.json",
+      "ReferenceType": "External",
+      "Nodes": [
+        "1eaddc8ec6224533aa9cdfa2bef62f97"
+      ]
+    }
+  ],
+  "EnableLegacyPolyCurveBehavior": true,
+  "Thumbnail": "",
+  "GraphDocumentationURL": null,
+  "ExtensionWorkspaceData": [
+    {
+      "ExtensionGuid": "28992e1d-abb9-417f-8b1b-05e053bee670",
+      "Name": "Eigenschaften",
+      "Version": "3.5",
+      "Data": {}
+    },
+    {
+      "ExtensionGuid": "DFBD9CC0-DB40-457A-939E-8C8555555A9D",
+      "Name": "Generative Design",
+      "Version": "9.1",
+      "Data": {}
+    }
+  ],
+  "Author": "",
+  "Linting": {
+    "activeLinter": "Keine",
+    "activeLinterId": "7b75fb44-43fd-4631-a878-29f4d5d8399a",
+    "warningCount": 0,
+    "errorCount": 0
+  },
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "3.5.0.8297",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "_Hintergrundvorschau",
+      "EyeX": -9.097283363342285,
+      "EyeY": 13.78425407409668,
+      "EyeZ": 47.32366943359375,
+      "LookX": 10.750517845153809,
+      "LookY": -11.64639663696289,
+      "LookZ": -51.960845947265625,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "ConnectorPins": [],
+    "NodeViews": [
+      {
+        "Id": "5cda2da9fc614ffab9fc0d03386f8964",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 414.9999999999999,
+        "Y": 233.66666666666669
+      },
+      {
+        "Id": "72be0c05b71c4e55a203c7533c34b02b",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 50.33333333333337,
+        "Y": 231.66666666666669
+      },
+      {
+        "Id": "8cb85182fcc94318a596f967dbe665ab",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 416.16788298231586,
+        "Y": 521.0379254940257
+      },
+      {
+        "Id": "dc381dbd75de4820ac1137cc4d44421d",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 52.76210082099192,
+        "Y": 515.255271977998
+      },
+      {
+        "Id": "ff89c593512f4fe680541afb30504304",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 762.2911846188306,
+        "Y": 237.973583585952
+      },
+      {
+        "Id": "dc34a29a281f4b89b85c36625c01dabd",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 767.0346996479377,
+        "Y": 522.737740504175
+      },
+      {
+        "Id": "485e7d07215f43adb5eba6e8c424b311",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 761.7618208348588,
+        "Y": 375.1156082909392
+      },
+      {
+        "Id": "b662f4933f324a4cb07f5a1b0b8fc0b3",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 415.9385421906072,
+        "Y": 373.4157932807899
+      },
+      {
+        "Id": "a6a608b179664ecf9b8d4f0cc6d31b76",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 51.27187552394071,
+        "Y": 371.4157932807899
+      },
+      {
+        "Id": "9d5f02541a0845f3a49e07ab80c47957",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 764.6810332374814,
+        "Y": 658.5275710954587
+      },
+      {
+        "Id": "7281eeb58f2940d5a44484f5f4714d74",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 413.81421657185956,
+        "Y": 656.8277560853094
+      },
+      {
+        "Id": "e250b2cd80f1441d8db97acc757ce2b0",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 50.40843441053562,
+        "Y": 651.0451025692817
+      },
+      {
+        "Id": "ea12c052114c4f1c94330ceaf37b6030",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 760.811303678713,
+        "Y": 790.8333681136887
+      },
+      {
+        "Id": "d9190df2cca74cb8bfbd2b2af8d43890",
+        "Name": "All Elements of Category",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 409.94448701309113,
+        "Y": 789.1335531035394
+      },
+      {
+        "Id": "8cb1b4dcbd234db9a8f8fef25f4c9164",
+        "Name": "Categories",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 46.53870485176719,
+        "Y": 783.3508995875117
+      },
+      {
+        "Id": "00cf0b32e00a49f1820371b3eb38efd2",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1265.056142396087,
+        "Y": 335.06580800645764
+      },
+      {
+        "Id": "6976ebf288f4488aa0745701fdde3a7b",
+        "Name": "Python Script",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1713.395386238878,
+        "Y": 328.5993096240404
+      },
+      {
+        "Id": "1eaddc8ec6224533aa9cdfa2bef62f97",
+        "Name": "String",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 995.9868364734521,
+        "Y": 131.52237411448345
+      },
+      {
+        "Id": "69759397c79544bfa59d6f461762c183",
+        "Name": "Number",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "ShowGeometry": true,
+        "X": 1483.6673860886526,
+        "Y": 415.9267320209186
+      }
+    ],
+    "Annotations": [],
+    "X": 231.7029720199506,
+    "Y": -7.831036310931779,
+    "Zoom": 0.40867896353963623
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur5e_2f-85_hande_config">
+
+    <xacro:arg name="alice_initial_positions_file" default="$(find ur5e_2f-85_hande_moveit_config)/config/alice_initial_positions.yaml"/>
+    <xacro:arg name="bob_initial_positions_file" default="$(find ur5e_2f-85_hande_moveit_config)/config/bob_initial_positions.yaml"/>
+
+    <!-- Root link -->
+    <link name="world"/>
+
+    <!-- Xacro imports -->
+    <xacro:include filename="ur5e_2f-85_macro.urdf.xacro" />
+    <xacro:include filename="ur5e_hande_macro.urdf.xacro" />
+
+    <!-- alice -->
+    <xacro:ur5e_2f-85_gripper name="alice_" tf_prefix="alice_" prefix="alice_" parent="world" initial_positions_file="$(arg alice_initial_positions_file)">
+        <origin xyz="0.5 0 0" rpy="0 0 0" />
+    </xacro:ur5e_2f-85_gripper>
+
+    <!-- bob -->
+    <xacro:ur5e_hande_gripper name="bob_" tf_prefix="bob_" prefix="bob_" parent="world" initial_positions_file="$(arg bob_initial_positions_file)">
+        <origin xyz="-0.5 0 0" rpy="0 0 0" />
+    </xacro:ur5e_hande_gripper>
+
+    <gazebo>
+        <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+            <parameters>$(find ur5e_2f-85_hande_description)/config/ur5e_2f-85_hande_controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+</robot>

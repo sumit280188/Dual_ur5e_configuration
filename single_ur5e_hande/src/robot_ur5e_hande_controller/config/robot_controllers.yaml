@@ -1,0 +1,48 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100 #100 to 500 Hz
+    use_sim_time: true
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    gripper_action_controller:
+      type: position_controllers/GripperActionController
+
+arm_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces: [position]
+    state_interfaces: [position]
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false # Defaults to false
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    allow_nonzero_velocity_at_trajectory_end: true
+    constraints:
+        stopped_velocity_tolerance: 0.2 # Defaults to 0.01
+        goal_time: 0.0 # Defaults to 0.0 (start immediately)
+    reliability: reliable
+    durability: transient_local
+
+gripper_action_controller: #it should be joint not joints and that too in a straight line not as a list
+    ros__parameters:
+      action_monitor_rate: 20.0 # Hz
+      joint: robotiq_hande_left_finger_joint
+      # max_effort: 10.0 # N
+      # goal_tolerance: 0.01 # m
+      # allow_stalling: false
+      # stall_velocity_threshold: 0.001 #m/s
+      # stall_timeout: 1.0 # s
+      # state_interfaces: 
+      #   - position

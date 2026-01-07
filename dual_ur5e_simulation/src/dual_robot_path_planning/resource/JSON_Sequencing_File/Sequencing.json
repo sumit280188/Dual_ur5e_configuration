@@ -1,0 +1,2887 @@
+{
+    "meta": {
+        "count": 192
+    },
+    "items": [
+        {
+            "guid": "0dpkzjdkjCi8koeSa95PWQ",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -2.200691,
+                "y": 2.823053,
+                "z": 4.098592
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 1
+        },
+        {
+            "guid": "0dpkzjdkjCi8koeSa95P_L",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -1.326491,
+                "y": 2.823053,
+                "z": 4.098592
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 2
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$qQ",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 2.334414,
+                "y": 2.837364,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 3
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_l",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -1.871999,
+                "y": 2.149219,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 4
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_q",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 2.640756,
+                "y": 1.985026,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 5
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_y",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 2.334414,
+                "y": 3.09327,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 6
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_4",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -0.354647,
+                "y": 2.323402,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 7
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_U",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -0.195133,
+                "y": 2.323402,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 8
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_S",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -0.195133,
+                "y": 2.721598,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 9
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dva",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -0.354647,
+                "y": 2.72163,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 10
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvi",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 1.404546,
+                "y": 2.322784,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 11
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvr",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 1.56406,
+                "y": 2.321893,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 12
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvz",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 1.56406,
+                "y": 2.721598,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 13
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dv5",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 1.404546,
+                "y": 2.72163,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 14
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvQ",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -1.002613,
+                "y": 2.083596,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 15
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$rt",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 2.548023,
+                "y": 2.449351,
+                "z": 4.10105
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 16
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvC",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 0.985491,
+                "y": 2.72163,
+                "z": 4.102681
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 17
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvI",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 0.985491,
+                "y": 2.327929,
+                "z": 4.102681
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 18
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$s2",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -0.32127,
+                "y": 2.47306,
+                "z": 4.11565
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 19
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$vD",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 1.492943,
+                "y": 2.47306,
+                "z": 4.11565
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 20
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$r9",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -1.94545,
+                "y": 2.47306,
+                "z": 4.11565
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 21
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$uH",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": -1.071163,
+                "y": 2.47306,
+                "z": 4.11565
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 22
+        },
+        {
+            "guid": "1j2C8M4JX8UeDwUaHNA$vg",
+            "category": "Sonderausstattung",
+            "point": {
+                "x": 0.85183,
+                "y": 2.391038,
+                "z": 4.123765
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 23
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uY",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200706,
+                "y": 2.678788,
+                "z": 0.682747
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 24
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zr",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.721622,
+                "z": 0.683981
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 25
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vH",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.328623,
+                "y": 2.678788,
+                "z": 0.68794
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 26
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wv",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 1.136663
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 27
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4w2",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577193,
+                "y": 2.721622,
+                "z": 1.148907
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 28
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wp",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858169,
+                "y": 2.721539,
+                "z": 1.149008
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 29
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wm",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035855,
+                "y": 2.721622,
+                "z": 1.149559
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 30
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yj",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035855,
+                "y": 2.301257,
+                "z": 1.454084
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 31
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yh",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858156,
+                "y": 2.301258,
+                "z": 1.454084
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 32
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zG",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577194,
+                "y": 2.303717,
+                "z": 1.456544
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 33
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z6",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.234481,
+                "y": 2.305029,
+                "z": 1.457858
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 34
+        },
+        {
+            "guid": "25Fy7$mC52m835zrcKJP$U",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200671,
+                "y": 2.129946,
+                "z": 1.458727
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 35
+        },
+        {
+            "guid": "0f0zD6O312KRwJupTzG2ws",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.330275,
+                "y": 2.063091,
+                "z": 1.462275
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 36
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xe",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.31602,
+                "z": 1.466387
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 37
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yl",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577194,
+                "y": 2.499546,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 38
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yi",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035855,
+                "y": 2.511029,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 39
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yf",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858162,
+                "y": 2.512628,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 40
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zT",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577193,
+                "y": 2.75197,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 41
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zq",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.748689,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 42
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z_",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035855,
+                "y": 2.734745,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 43
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yd",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.520051,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 44
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yg",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858168,
+                "y": 2.733842,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 45
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z4",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.23448,
+                "y": 2.524152,
+                "z": 1.47623
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 46
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z5",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.23448,
+                "y": 2.750329,
+                "z": 1.47623
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 47
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vI",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200738,
+                "y": 2.775654,
+                "z": 1.477043
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 48
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ui",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200669,
+                "y": 2.413996,
+                "z": 1.479227
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 49
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ue",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.330275,
+                "y": 2.381192,
+                "z": 1.482781
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 50
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vJ",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.328623,
+                "y": 2.775654,
+                "z": 1.487429
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 51
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z2",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.23448,
+                "y": 2.733848,
+                "z": 1.579576
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 52
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wN",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 1.668159
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 53
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4u_",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.784703,
+                "y": 1.986303,
+                "z": 1.680519
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 54
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uX",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.936501,
+                "y": 1.929401,
+                "z": 1.680531
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 55
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wR",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035855,
+                "y": 2.323402,
+                "z": 1.73631
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 56
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wP",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858154,
+                "y": 2.323402,
+                "z": 1.737623
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 57
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yk",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577193,
+                "y": 2.323402,
+                "z": 1.806028
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 58
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z3",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.234485,
+                "y": 2.323402,
+                "z": 1.822432
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 59
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ye",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.323402,
+                "z": 1.823037
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 60
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uh",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083597,
+                "z": 2.133072
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 61
+        },
+        {
+            "guid": "25Fy7$mC52m835zrcKJPuT",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200692,
+                "y": 2.14922,
+                "z": 2.155404
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 62
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uf",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083596,
+                "z": 2.73251
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 63
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uj",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200703,
+                "y": 2.149219,
+                "z": 2.780728
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 64
+        },
+        {
+            "guid": "0f0zD6O312KRwJupTzG2xD",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083596,
+                "z": 3.067282
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 65
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ul",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200366,
+                "y": 2.14889,
+                "z": 3.162544
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 66
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xH",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858169,
+                "y": 2.721539,
+                "z": 3.285687
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 67
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xs",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577193,
+                "y": 2.721622,
+                "z": 3.285687
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 68
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xE",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035854,
+                "y": 2.721622,
+                "z": 3.288968
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 69
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zo",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.721622,
+                "z": 3.308653
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 70
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP565",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.200738,
+                "y": 2.678788,
+                "z": 3.3107
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 71
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP566",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.328623,
+                "y": 2.678788,
+                "z": 3.315893
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 72
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4we",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 3.385753
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 73
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uz",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.974369,
+                "y": 2.060583,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 74
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uW",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.115058,
+                "y": 1.999315,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 75
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ug",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.339278,
+                "y": 2.061463,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 76
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uk",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.209694,
+                "y": 2.127095,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 77
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vM",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.942982,
+                "y": 1.941634,
+                "z": 3.456509
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 78
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vP",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.791179,
+                "y": 1.998537,
+                "z": 3.45651
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 79
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4yZ",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.577193,
+                "y": 2.323402,
+                "z": 3.654856
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 80
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wO",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.858166,
+                "y": 2.323402,
+                "z": 3.674554
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 81
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wQ",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.035854,
+                "y": 2.323402,
+                "z": 3.677001
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 82
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4z7",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.234487,
+                "y": 2.323402,
+                "z": 3.690945
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 83
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ya",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.727597,
+                "y": 2.323402,
+                "z": 3.698111
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 84
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_i",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.89444,
+                "y": 2.149219,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 85
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_r",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 2.618315,
+                "y": 1.985026,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 86
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_z",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 2.334414,
+                "y": 3.070829,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 87
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_5",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.377088,
+                "y": 2.323402,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 88
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_V",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.172692,
+                "y": 2.323402,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 89
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_T",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.172692,
+                "y": 2.721598,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 90
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvb",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.377088,
+                "y": 2.72163,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 91
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvj",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.382105,
+                "y": 2.322784,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 92
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvw",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.586501,
+                "y": 2.321893,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 93
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dv2",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.586501,
+                "y": 2.721598,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 94
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvA",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.382105,
+                "y": 2.72163,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 95
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvR",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.025054,
+                "y": 2.083596,
+                "z": 4.100722
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 96
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_d_K",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -0.309339,
+                "y": 1.804424,
+                "z": 4.10105
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 97
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvo",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 1.449854,
+                "y": 1.804424,
+                "z": 4.10105
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 98
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvD",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.96305,
+                "y": 2.72163,
+                "z": 4.102681
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 99
+        },
+        {
+            "guid": "35DxdFnBL3ORaeO2TM_dvJ",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": 0.96305,
+                "y": 2.327929,
+                "z": 4.102681
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 100
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uZ",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083595,
+                "z": 4.270742
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 101
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ub",
+            "category": "Allgemeines Modell",
+            "point": {
+                "x": -2.2007,
+                "y": 2.14923,
+                "z": 4.270742
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 102
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97LN",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.577194,
+                "y": 2.689633,
+                "z": 0.821585
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 103
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97LJ",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.035855,
+                "y": 2.690451,
+                "z": 0.821786
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 104
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97Lb",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 1.23448,
+                "y": 2.689356,
+                "z": 0.821786
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 105
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97LU",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 0.858169,
+                "y": 2.689551,
+                "z": 0.821787
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 106
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4nH",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.035855,
+                "y": 2.665847,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 107
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4n9",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.577194,
+                "y": 2.666668,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 108
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_P",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 1.727597,
+                "y": 2.666668,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 109
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$L",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 0.858169,
+                "y": 2.661664,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 110
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mx",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 1.23448,
+                "y": 2.661746,
+                "z": 1.47623
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 111
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uM",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -2.200738,
+                "y": 2.605051,
+                "z": 1.477043
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 112
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uB",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -1.328623,
+                "y": 2.605051,
+                "z": 1.487429
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 113
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4nJ",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.035855,
+                "y": 2.370154,
+                "z": 1.522981
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 114
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4nB",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.577194,
+                "y": 2.370975,
+                "z": 1.523802
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 115
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$N",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 0.858154,
+                "y": 2.373435,
+                "z": 1.526262
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 116
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_N",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 1.727597,
+                "y": 2.379177,
+                "z": 1.532004
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 117
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mz",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 1.23448,
+                "y": 2.391644,
+                "z": 1.544471
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 118
+        },
+        {
+            "guid": "25Fy7$mC52m835zrcKJP$G",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -2.200672,
+                "y": 2.250925,
+                "z": 1.580933
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 119
+        },
+        {
+            "guid": "0f0zD6O312KRwJupTzG2wm",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -1.330275,
+                "y": 2.185302,
+                "z": 1.584487
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 120
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wL",
+            "category": "Rohrformteile",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 1.707529
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 121
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vK",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -0.997277,
+                "y": 1.955621,
+                "z": 3.38794
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 122
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vN",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -1.845472,
+                "y": 2.012527,
+                "z": 3.38794
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 123
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4u3",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -2.139525,
+                "y": 2.133236,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 124
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uq",
+            "category": "Rohrformteile",
+            "point": {
+                "x": -1.269099,
+                "y": 2.067605,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 125
+        },
+        {
+            "guid": "1PtCepLo5EbPKJfissQWGQ",
+            "category": "Rohre",
+            "point": {
+                "x": -0.035854,
+                "y": 2.721619,
+                "z": 0.376444
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 126
+        },
+        {
+            "guid": "1PtCepLo5EbPKJfissQWLf",
+            "category": "Rohre",
+            "point": {
+                "x": -0.577193,
+                "y": 2.721622,
+                "z": 0.379625
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 127
+        },
+        {
+            "guid": "1PtCepLo5EbPKJfissQWTe",
+            "category": "Rohre",
+            "point": {
+                "x": 1.234481,
+                "y": 2.721344,
+                "z": 0.379725
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 128
+        },
+        {
+            "guid": "1PtCepLo5EbPKJfissQWU1",
+            "category": "Rohre",
+            "point": {
+                "x": 0.858169,
+                "y": 2.721539,
+                "z": 0.379725
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 129
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uI",
+            "category": "Rohre",
+            "point": {
+                "x": -2.200706,
+                "y": 2.678788,
+                "z": 0.682747
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 130
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$q",
+            "category": "Rohre",
+            "point": {
+                "x": 1.727597,
+                "y": 2.721622,
+                "z": 0.683981
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 131
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4u7",
+            "category": "Rohre",
+            "point": {
+                "x": -1.328623,
+                "y": 2.678788,
+                "z": 0.68794
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 132
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zd",
+            "category": "Rohre",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 1.136663
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 133
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zb",
+            "category": "Rohre",
+            "point": {
+                "x": -0.577193,
+                "y": 2.721622,
+                "z": 1.148907
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 134
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wD",
+            "category": "Rohre",
+            "point": {
+                "x": 0.858169,
+                "y": 2.721539,
+                "z": 1.149008
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 135
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$k",
+            "category": "Rohre",
+            "point": {
+                "x": -0.035855,
+                "y": 2.721622,
+                "z": 1.149559
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 136
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4n7",
+            "category": "Rohre",
+            "point": {
+                "x": -0.577193,
+                "y": 2.499546,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 137
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mp",
+            "category": "Rohre",
+            "point": {
+                "x": 1.727597,
+                "y": 2.520051,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 138
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ml",
+            "category": "Rohre",
+            "point": {
+                "x": -0.035855,
+                "y": 2.511029,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 139
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$J",
+            "category": "Rohre",
+            "point": {
+                "x": 0.858156,
+                "y": 2.512628,
+                "z": 1.476229
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 140
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mv",
+            "category": "Rohre",
+            "point": {
+                "x": 1.23448,
+                "y": 2.524152,
+                "z": 1.47623
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 141
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uK",
+            "category": "Rohre",
+            "point": {
+                "x": -2.20067,
+                "y": 2.413996,
+                "z": 1.479227
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 142
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4u9",
+            "category": "Rohre",
+            "point": {
+                "x": -1.330275,
+                "y": 2.381192,
+                "z": 1.482781
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 143
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4nj",
+            "category": "Rohre",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 1.579576
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 144
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4u1",
+            "category": "Rohre",
+            "point": {
+                "x": -1.784696,
+                "y": 1.986293,
+                "z": 1.680519
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 145
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uo",
+            "category": "Rohre",
+            "point": {
+                "x": -0.9365,
+                "y": 1.929411,
+                "z": 1.680531
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 146
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_g",
+            "category": "Rohre",
+            "point": {
+                "x": -0.035855,
+                "y": 2.323402,
+                "z": 1.73631
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 147
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$H",
+            "category": "Rohre",
+            "point": {
+                "x": 0.858154,
+                "y": 2.323402,
+                "z": 1.737623
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 148
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4n5",
+            "category": "Rohre",
+            "point": {
+                "x": -0.577194,
+                "y": 2.323402,
+                "z": 1.806028
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 149
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mt",
+            "category": "Rohre",
+            "point": {
+                "x": 1.234482,
+                "y": 2.323402,
+                "z": 1.822432
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 150
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mr",
+            "category": "Rohre",
+            "point": {
+                "x": 1.727597,
+                "y": 2.323402,
+                "z": 1.823037
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 151
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4ur",
+            "category": "Rohre",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083596,
+                "z": 2.133072
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 152
+        },
+        {
+            "guid": "25Fy7$mC52m835zrcKJPuJ",
+            "category": "Rohre",
+            "point": {
+                "x": -2.20068,
+                "y": 2.149219,
+                "z": 2.155404
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 153
+        },
+        {
+            "guid": "0f0zD6O312KRwJupTzG2xF",
+            "category": "Rohre",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083596,
+                "z": 3.067282
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 154
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4u4",
+            "category": "Rohre",
+            "point": {
+                "x": -2.200678,
+                "y": 2.149221,
+                "z": 3.162546
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 155
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xn",
+            "category": "Rohre",
+            "point": {
+                "x": -0.577193,
+                "y": 2.721622,
+                "z": 3.285687
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 156
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wj",
+            "category": "Rohre",
+            "point": {
+                "x": 0.858169,
+                "y": 2.721539,
+                "z": 3.285687
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 157
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4x9",
+            "category": "Rohre",
+            "point": {
+                "x": -0.035855,
+                "y": 2.721622,
+                "z": 3.288968
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 158
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_Q",
+            "category": "Rohre",
+            "point": {
+                "x": 1.727597,
+                "y": 2.721622,
+                "z": 3.308653
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 159
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4v5",
+            "category": "Rohre",
+            "point": {
+                "x": -2.200738,
+                "y": 2.678788,
+                "z": 3.3107
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 160
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4vX",
+            "category": "Rohre",
+            "point": {
+                "x": -1.328623,
+                "y": 2.678788,
+                "z": 3.315893
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 161
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wZ",
+            "category": "Rohre",
+            "point": {
+                "x": 1.23448,
+                "y": 2.721622,
+                "z": 3.385753
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 162
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uV",
+            "category": "Rohre",
+            "point": {
+                "x": -1.974369,
+                "y": 2.060582,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 163
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4um",
+            "category": "Rohre",
+            "point": {
+                "x": -1.115058,
+                "y": 1.999315,
+                "z": 3.446339
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 164
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_$",
+            "category": "Rohre",
+            "point": {
+                "x": -0.577193,
+                "y": 2.323402,
+                "z": 3.654856
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 165
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_i",
+            "category": "Rohre",
+            "point": {
+                "x": 0.858166,
+                "y": 2.323402,
+                "z": 3.674554
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 166
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mf",
+            "category": "Rohre",
+            "point": {
+                "x": -0.035854,
+                "y": 2.323402,
+                "z": 3.677001
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 167
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4mV",
+            "category": "Rohre",
+            "point": {
+                "x": 1.234487,
+                "y": 2.323402,
+                "z": 3.690945
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 168
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$8",
+            "category": "Rohre",
+            "point": {
+                "x": 1.727597,
+                "y": 2.323402,
+                "z": 3.698111
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 169
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uR",
+            "category": "Rohre",
+            "point": {
+                "x": -2.2007,
+                "y": 2.14923,
+                "z": 4.270742
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 170
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xk",
+            "category": "Rohre",
+            "point": {
+                "x": -1.330275,
+                "y": 2.083596,
+                "z": 4.270742
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 171
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97LH",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.577193,
+                "y": 2.495786,
+                "z": 0.821786
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 172
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97LT",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.035855,
+                "y": 2.525314,
+                "z": 0.821786
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 173
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97Ld",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 1.23448,
+                "y": 2.495786,
+                "z": 0.821786
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 174
+        },
+        {
+            "guid": "3zvUbI0Ef668TWfEjV97LQ",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.858171,
+                "y": 2.509105,
+                "z": 0.821787
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 175
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xd",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.035855,
+                "y": 2.323402,
+                "z": 1.947178
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 176
+        },
+        {
+            "guid": "0Dq8dMJKfAshBBiJp7C_WO",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.858154,
+                "y": 2.323402,
+                "z": 1.949803
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 177
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4_f",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.021091,
+                "y": 2.256309,
+                "z": 1.980971
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 178
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$G",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.87293,
+                "y": 2.256309,
+                "z": 1.980971
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 179
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4zl",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.894255,
+                "y": 2.323402,
+                "z": 2.198491
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 180
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wG",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.8352,
+                "y": 2.323402,
+                "z": 2.198491
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 181
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wJ",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.000235,
+                "y": 2.323402,
+                "z": 2.198491
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 182
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4wK",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.05882,
+                "y": 2.323402,
+                "z": 2.198491
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 183
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4__",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.577193,
+                "y": 2.213361,
+                "z": 2.220471
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 184
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$7",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 1.727597,
+                "y": 2.198536,
+                "z": 2.25473
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 185
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4$3",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 1.234487,
+                "y": 2.177849,
+                "z": 2.256331
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 186
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xa",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": 0.858166,
+                "y": 2.323402,
+                "z": 2.31302
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 187
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4xb",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -0.035855,
+                "y": 2.323402,
+                "z": 2.317913
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 188
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uD",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -1.330275,
+                "y": 1.94416,
+                "z": 2.73251
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 189
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uE",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -1.33042,
+                "y": 1.716143,
+                "z": 2.740712
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 190
+        },
+        {
+            "guid": "0l_dkEysv1awJx6pGbP4uQ",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -2.200703,
+                "y": 2.009783,
+                "z": 2.780728
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 191
+        },
+        {
+            "guid": "25Fy7$mC52m835zrcKJPzg",
+            "category": "Rohrzubehör",
+            "point": {
+                "x": -2.200703,
+                "y": 1.716159,
+                "z": 2.78893
+            },
+            "rotation": {
+                "yaw": 0.0,
+                "pitch": 0.0,
+                "roll": 0.0
+            },
+            "montage_index": 192
+        }
+    ]
+}
